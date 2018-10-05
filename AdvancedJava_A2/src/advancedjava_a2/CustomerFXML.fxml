@@ -18,7 +18,7 @@
       <Separator layoutX="43.0" layoutY="222.0" prefWidth="200.0" />
       <Separator layoutX="43.0" layoutY="326.0" prefWidth="200.0" />
       <Separator layoutX="43.0" layoutY="533.0" prefWidth="200.0" />
-      <TableView layoutX="43.0" layoutY="549.0" prefHeight="105.0" prefWidth="659.0">
+      <TableView fx:id="nutritionInformationTableView" layoutX="43.0" layoutY="549.0" prefHeight="105.0" prefWidth="659.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
@@ -27,56 +27,56 @@
       <Separator layoutX="43.0" layoutY="672.0" prefWidth="200.0" />
       <HBox layoutX="669.0" layoutY="64.0" spacing="60.0">
          <children>
-            <RadioButton mnemonicParsing="false" text="Breakfast" />
-            <RadioButton mnemonicParsing="false" text="Lunch" />
-            <RadioButton mnemonicParsing="false" text="Dinner" />
+            <RadioButton fx:id="breakfastRadioButton" mnemonicParsing="false" text="Breakfast" />
+            <RadioButton fx:id="lunchRadioButton" mnemonicParsing="false" text="Lunch" />
+            <RadioButton fx:id="dinnerRadioButton" mnemonicParsing="false" text="Dinner" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="41.0" layoutY="60.0" spacing="10.0">
          <children>
             <Label text="Customer Name:" />
-            <TextField prefHeight="25.0" prefWidth="200.0" />
+            <TextField fx:id="customerNameTextField" prefHeight="25.0" prefWidth="200.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="406.0" layoutY="60.0" spacing="10.0">
          <children>
             <Label text="Table Number:" />
-            <TextField prefWidth="50.0" />
+            <TextField fx:id="tableNumberTextField" prefWidth="50.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="129.0" layoutY="261.0" spacing="10.0">
          <children>
             <Label text="Food" />
-            <ComboBox prefWidth="150.0" />
+            <ComboBox fx:id="foodComboBox" prefWidth="150.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="445.0" layoutY="261.0" spacing="10.0">
          <children>
             <Label text="Beverage" />
-            <ComboBox prefWidth="150.0" />
+            <ComboBox fx:id="beverageComboBox" prefWidth="150.0" />
          </children>
       </HBox>
       <VBox alignment="CENTER" layoutX="43.0" layoutY="356.0" spacing="5.0">
          <children>
             <Label text="Pending Orders" />
-            <ListView prefHeight="100.0" prefWidth="200.0" />
+            <ListView fx:id="pendingOrdersListView" prefHeight="100.0" prefWidth="200.0" />
          </children>
       </VBox>
       <VBox alignment="CENTER" layoutX="376.0" layoutY="356.0" spacing="5.0">
          <children>
             <Label text="Served Orders" />
-            <ListView prefHeight="100.0" prefWidth="200.0" />
+            <ListView fx:id="servedOrdersListView" prefHeight="100.0" prefWidth="200.0" />
          </children>
       </VBox>
       <HBox layoutX="85.0" layoutY="726.0" prefHeight="25.0" spacing="10.0">
          <children>
-          <Button mnemonicParsing="false" prefWidth="150.0" text="Enter Data" />
-            <Button mnemonicParsing="false" prefWidth="150.0" text="Display Choices" />
-            <Button mnemonicParsing="false" prefWidth="150.0" text="Display Order" />
-            <Button mnemonicParsing="false" prefWidth="150.0" text="Prepare" />
-            <Button mnemonicParsing="false" prefWidth="150.0" text="Bill" />
-            <Button mnemonicParsing="false" prefWidth="150.0" text="Clear Display" />
-            <Button mnemonicParsing="false" prefWidth="150.0" text="Quit" />
+          <Button fx:id="enterDataButton" mnemonicParsing="false" prefWidth="150.0" text="Enter Data" />
+            <Button fx:id="displayChoicesButton" mnemonicParsing="false" prefWidth="150.0" text="Display Choices" />
+            <Button fx:id="displayOrderButton" mnemonicParsing="false" prefWidth="150.0" text="Display Order" />
+            <Button fx:id="prepareButton" mnemonicParsing="false" prefWidth="150.0" text="Prepare" />
+            <Button fx:id="billButton" mnemonicParsing="false" prefWidth="150.0" text="Bill" />
+            <Button fx:id="clearDisplayButton" mnemonicParsing="false" prefWidth="150.0" text="Clear Display" />
+            <Button fx:id="quitButton" mnemonicParsing="false" prefWidth="150.0" text="Quit" />
          </children>
       </HBox>
    </children>
