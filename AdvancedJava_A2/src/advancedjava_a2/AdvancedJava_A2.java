@@ -32,6 +32,8 @@ public class AdvancedJava_A2 extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        
+        CSVReaderUtility.readAllDataFromCSV("Assignment2Data.csv");
     }
     
 }
