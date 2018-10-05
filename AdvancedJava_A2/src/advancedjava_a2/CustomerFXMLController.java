@@ -7,7 +7,11 @@ package advancedjava_a2;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
@@ -19,6 +23,17 @@ public class CustomerFXMLController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    
+    
+    @FXML TextField customerNameTextField;
+    @FXML TextField tableNumberTextField;
+    @FXML RadioButton breakfastRadioButton;
+    @FXML RadioButton lunchRadioButton;
+    @FXML RadioButton dinnerRadioButton;
+    
+    @FXML ComboBox foodComboBox;
+    @FXML ComboBox beverageComboBox;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
