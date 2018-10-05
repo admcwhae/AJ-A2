@@ -5,12 +5,20 @@
  */
 package advancedjava_a2;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 /**
  *
@@ -18,11 +26,21 @@ import javafx.scene.control.Label;
  */
 public class FXMLDocumentController implements Initializable {
     
-    
+    @FXML Button sampleButton;
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        
+        try {
+                    Parent mainViewParent = FXMLLoader.load(getClass().getResource("CustomerFXML.fxml"));
+                    Scene mainViewScene = new Scene(mainViewParent);
+
+                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+                    window.setScene(mainViewScene);
+                    window.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
     }
     
     @Override

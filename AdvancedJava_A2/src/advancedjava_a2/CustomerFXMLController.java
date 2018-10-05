@@ -15,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 
 /**
  * FXML Controller class
@@ -30,6 +31,7 @@ public class CustomerFXMLController implements Initializable {
     //first partition - "customer details"
     @FXML TextField customerNameTextField;
     @FXML TextField tableNumberTextField;
+    final ToggleGroup radioButtonToggleGroup = new ToggleGroup();
     @FXML RadioButton breakfastRadioButton;
     @FXML RadioButton lunchRadioButton;
     @FXML RadioButton dinnerRadioButton;
@@ -59,6 +61,16 @@ public class CustomerFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
+        //Assign toggleGroup to radio buttons
+        setRadioButtonToggleGroup();
+    }    
+
+    private void setRadioButtonToggleGroup() {
+        breakfastRadioButton.setToggleGroup(radioButtonToggleGroup);
+        breakfastRadioButton.setSelected(true);
+        lunchRadioButton.setToggleGroup(radioButtonToggleGroup);
+        dinnerRadioButton.setToggleGroup(radioButtonToggleGroup);
     }    
     
 }
