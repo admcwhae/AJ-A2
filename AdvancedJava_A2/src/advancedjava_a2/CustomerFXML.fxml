@@ -25,12 +25,6 @@
         </columns>
       </TableView>
       <Separator layoutX="43.0" layoutY="672.0" prefWidth="200.0" />
-    <Button layoutX="409.0" layoutY="688.0" mnemonicParsing="false" text="Enter Data" />
-      <Button layoutX="116.0" layoutY="752.0" mnemonicParsing="false" text="Display Choices" />
-      <Button layoutX="272.0" layoutY="739.0" mnemonicParsing="false" text="Display Order" />
-      <Button layoutX="469.0" layoutY="726.0" mnemonicParsing="false" text="Prepare" />
-      <Button layoutX="357.0" layoutY="713.0" mnemonicParsing="false" text="Bill" />
-      <Button layoutX="143.0" layoutY="713.0" mnemonicParsing="false" text="Clear Display" />
       <HBox layoutX="669.0" layoutY="64.0" spacing="60.0">
          <children>
             <RadioButton mnemonicParsing="false" text="Breakfast" />
@@ -74,5 +68,16 @@
             <ListView prefHeight="100.0" prefWidth="200.0" />
          </children>
       </VBox>
+      <HBox layoutX="85.0" layoutY="726.0" prefHeight="25.0" spacing="10.0">
+         <children>
+          <Button mnemonicParsing="false" prefWidth="150.0" text="Enter Data" />
+            <Button mnemonicParsing="false" prefWidth="150.0" text="Display Choices" />
+            <Button mnemonicParsing="false" prefWidth="150.0" text="Display Order" />
+            <Button mnemonicParsing="false" prefWidth="150.0" text="Prepare" />
+            <Button mnemonicParsing="false" prefWidth="150.0" text="Bill" />
+            <Button mnemonicParsing="false" prefWidth="150.0" text="Clear Display" />
+            <Button mnemonicParsing="false" prefWidth="150.0" text="Quit" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
