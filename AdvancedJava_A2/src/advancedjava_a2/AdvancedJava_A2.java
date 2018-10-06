@@ -5,6 +5,8 @@
  */
 package advancedjava_a2;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,8 +34,7 @@ public class AdvancedJava_A2 extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-        
-        CSVReaderUtility.readAllDataFromCSV("Assignment2Data.csv");
+                
     }
     
 }
