@@ -7,6 +7,9 @@ package advancedjava_a2;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -28,6 +31,9 @@ public class CustomerFXMLController implements Initializable {
      * Initializes the controller class.
      */
     
+    
+    OrderSystem orderSystem;
+    
     //first partition - "customer details"
     @FXML TextField customerNameTextField;
     @FXML TextField tableNumberTextField;
@@ -46,8 +52,10 @@ public class CustomerFXMLController implements Initializable {
     @FXML ListView pendingOrdersListView;
     @FXML ListView servedOrdersListView;
     
+    
     //fourth partition - "nutrition information"
     @FXML TableView nutritionInformationTableView;
+    
     
     //fifth partition - "command buttons"
     @FXML Button enterDataButton;
@@ -64,13 +72,104 @@ public class CustomerFXMLController implements Initializable {
         
         //Assign toggleGroup to radio buttons
         setRadioButtonToggleGroup();
-    }    
+        
+        //create new OrderSystem object
+        orderSystem = new OrderSystem();
+        
+        //setup ComboBoxes
+        setupComboBoxes();
+    }
 
-    private void setRadioButtonToggleGroup() {
+    private void enterDataButtonClicked()
+    {
+        //check if data is valid
+        if( validateFirstPartitionData() && validateSecondPartionData() )
+        {
+            //create new Order object
+            Order newOrder = new Order(
+                    customerNameTextField.getText(),
+                    Integer.parseInt(tableNumberTextField.getText()),
+                    radioButtonToggleGroup.getSelectedToggle().getUserData().toString(), 
+                    foodComboBox.getSelectionModel().getSelectedItem().toString(),
+                    beverageComboBox.getSelectionModel().getSelectedItem().toString()
+            );
+            
+            //add above order to the orderSystem
+            orderSystem.addNewOrder(newOrder);
+        }
+    }
+    
+    private boolean validateFirstPartitionData()
+    {
+        //check if data has been entered by user
+        if( customerNameTextField.getText().length() > 0 && 
+                tableNumberTextField.getText().length() > 0 &&
+                radioButtonToggleGroup.getSelectedToggle() != null )
+        {
+            //check if entered data is valid USING LABMDA EXPRESSIONS
+            if( customerNameTextField.getText().chars().allMatch(Character::isLetter) &&
+                    tableNumberTextField.getText().chars().allMatch(Character::isDigit) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    @FXML
+    private void firstPartitionAction()
+    {
+        //check if all needed data has been entered by user
+        if( customerNameTextField.getText().length() > 0 && 
+                tableNumberTextField.getText().length() > 0 &&
+                radioButtonToggleGroup.getSelectedToggle() != null )
+        {
+            //enable comboBoxes
+            foodComboBox.setDisable(false);
+            beverageComboBox.setDisable(false);
+        }
+        else
+        {
+            //disable comboBoxes
+            foodComboBox.setDisable(true);
+            beverageComboBox.setDisable(true);
+        }
+    }
+    
+    private boolean validateSecondPartionData()
+    {
+        //check if both comboBoxes are selected
+        if( foodComboBox.getSelectionModel().isEmpty() || beverageComboBox.getSelectionModel().isEmpty() )
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private void setRadioButtonToggleGroup() 
+    {
         breakfastRadioButton.setToggleGroup(radioButtonToggleGroup);
-        breakfastRadioButton.setSelected(true);
         lunchRadioButton.setToggleGroup(radioButtonToggleGroup);
         dinnerRadioButton.setToggleGroup(radioButtonToggleGroup);
-    }    
+    }
+    
+    private void setupComboBoxes()
+    {
+        ObservableList<String> options = FXCollections.observableArrayList(
+            "Option 1",
+            "Option 2",
+            "Option 3"
+        );
+        
+        //adding sample values
+        foodComboBox.getItems().clear();
+        foodComboBox.getItems().addAll(options);
+        foodComboBox.setDisable(true);
+        
+        //adding sample values
+        beverageComboBox.getItems().clear();
+        beverageComboBox.getItems().addAll(options);
+        beverageComboBox.setDisable(true);
+    }
     
 }

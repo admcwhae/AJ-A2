@@ -15,7 +15,7 @@
 
 <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advancedjava_a2.CustomerFXMLController">
    <children>
-      <Separator layoutX="43.0" layoutY="222.0" prefWidth="200.0" />
+      <Separator layoutX="14.0" layoutY="145.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <Separator layoutX="43.0" layoutY="326.0" prefWidth="200.0" />
       <Separator layoutX="43.0" layoutY="533.0" prefWidth="200.0" />
       <TableView fx:id="nutritionInformationTableView" layoutX="43.0" layoutY="549.0" prefHeight="105.0" prefWidth="659.0">
@@ -25,44 +25,13 @@
         </columns>
       </TableView>
       <Separator layoutX="43.0" layoutY="672.0" prefWidth="200.0" />
-      <HBox layoutX="669.0" layoutY="64.0" spacing="60.0">
-         <children>
-            <RadioButton fx:id="breakfastRadioButton" mnemonicParsing="false" text="Breakfast" />
-            <RadioButton fx:id="lunchRadioButton" mnemonicParsing="false" text="Lunch" />
-            <RadioButton fx:id="dinnerRadioButton" mnemonicParsing="false" text="Dinner" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="41.0" layoutY="60.0" spacing="10.0">
-         <children>
-            <Label text="Customer Name:" />
-            <TextField fx:id="customerNameTextField" prefHeight="25.0" prefWidth="200.0" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="406.0" layoutY="60.0" spacing="10.0">
-         <children>
-            <Label text="Table Number:" />
-            <TextField fx:id="tableNumberTextField" prefWidth="50.0" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="129.0" layoutY="261.0" spacing="10.0">
-         <children>
-            <Label text="Food" />
-            <ComboBox fx:id="foodComboBox" prefWidth="150.0" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="445.0" layoutY="261.0" spacing="10.0">
-         <children>
-            <Label text="Beverage" />
-            <ComboBox fx:id="beverageComboBox" prefWidth="150.0" />
-         </children>
-      </HBox>
-      <VBox alignment="CENTER" layoutX="43.0" layoutY="356.0" spacing="5.0">
+      <VBox alignment="CENTER" layoutX="43.0" layoutY="356.0" prefHeight="122.0" prefWidth="595.0" spacing="5.0">
          <children>
             <Label text="Pending Orders" />
-            <ListView fx:id="pendingOrdersListView" prefHeight="100.0" prefWidth="200.0" />
+            <ListView fx:id="pendingOrdersListView" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="376.0" layoutY="356.0" spacing="5.0">
+      <VBox alignment="CENTER" layoutX="664.0" layoutY="356.0" prefHeight="122.0" prefWidth="582.0" spacing="5.0">
          <children>
             <Label text="Served Orders" />
             <ListView fx:id="servedOrdersListView" prefHeight="100.0" prefWidth="200.0" />
@@ -77,6 +46,50 @@
             <Button fx:id="billButton" mnemonicParsing="false" prefWidth="150.0" text="Bill" />
             <Button fx:id="clearDisplayButton" mnemonicParsing="false" prefWidth="150.0" text="Clear Display" />
             <Button fx:id="quitButton" mnemonicParsing="false" prefWidth="150.0" text="Quit" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="14.0" layoutY="96.0" spacing="120.0" AnchorPane.leftAnchor="14.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label text="Customer Name:" />
+                  <TextField fx:id="customerNameTextField" onAction="#firstPartitionAction" onKeyReleased="#firstPartitionAction" prefHeight="25.0" prefWidth="200.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label text="Table Number:" />
+                  <TextField fx:id="tableNumberTextField" onAction="#firstPartitionAction" onKeyReleased="#firstPartitionAction" prefWidth="50.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="25.0" spacing="15.0">
+               <children>
+                  <Label text="Meal Type:" />
+                  <HBox alignment="CENTER_LEFT" spacing="60.0">
+                     <children>
+                        <RadioButton fx:id="breakfastRadioButton" mnemonicParsing="false" onAction="#firstPartitionAction" text="Breakfast" />
+                        <RadioButton fx:id="lunchRadioButton" mnemonicParsing="false" onAction="#firstPartitionAction" text="Lunch" />
+                        <RadioButton fx:id="dinnerRadioButton" mnemonicParsing="false" onAction="#firstPartitionAction" text="Dinner" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="14.0" layoutY="210.0" spacing="120.0" AnchorPane.leftAnchor="14.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label text="Food" />
+                  <ComboBox fx:id="foodComboBox" prefWidth="300.0" promptText="--Select a Food Item--" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label text="Beverage" />
+                  <ComboBox fx:id="beverageComboBox" prefWidth="300.0" promptText="--Select a Beverage--" />
+               </children>
+            </HBox>
          </children>
       </HBox>
    </children>
