@@ -21,6 +21,7 @@ public class Menu {
      */
     public Menu() {
         menuItemsList = new ArrayList<MenuItem>();
+        populateMenuItemsList();
     }
 
     public ArrayList<MenuItem> getMenuItemsList() {
