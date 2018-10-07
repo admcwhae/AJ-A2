@@ -78,6 +78,7 @@ public class CustomerFXMLController implements Initializable {
         setupComboBoxes();
     }
 
+    //called by the UI
     @FXML
     private void enterDataButtonClicked()
     {
