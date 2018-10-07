@@ -25,11 +25,11 @@ public class Order {
     /**
      * Constructor for creating an order object when customer places initially places an order
      * 
-     * @param customerName
-     * @param tableNumber
-     * @param mealType
-     * @param foodItem
-     * @param beverageItem 
+     * @param customerName The customer's name.
+     * @param tableNumber The table number.
+     * @param mealType The meal type (Breakfast, Lunch, or Dinner).
+     * @param foodItem The food item selected from the menu.
+     * @param beverageItem The beverage selected from the menu.
      */
     public Order(String customerName, int tableNumber, String mealType, String foodItem, String beverageItem) {
         this.customerName = customerName;
@@ -65,6 +65,11 @@ public class Order {
         returnString += "Table : " + tableNumber + " | ";
         returnString += foodItem + ", " + beverageItem;
         return returnString;
+    }
+    
+    @Override
+    public String toString() {
+        return this.orderToString();
     }
 
     public String getCustomerName() {

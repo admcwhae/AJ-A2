@@ -39,7 +39,7 @@
       </VBox>
       <HBox layoutX="85.0" layoutY="726.0" prefHeight="25.0" spacing="10.0">
          <children>
-          <Button fx:id="enterDataButton" mnemonicParsing="false" prefWidth="150.0" text="Enter Data" />
+          <Button fx:id="enterDataButton" mnemonicParsing="false" onAction="#enterDataButtonClicked" prefWidth="150.0" text="Enter Data" />
             <Button fx:id="displayChoicesButton" mnemonicParsing="false" prefWidth="150.0" text="Display Choices" />
             <Button fx:id="displayOrderButton" mnemonicParsing="false" prefWidth="150.0" text="Display Order" />
             <Button fx:id="prepareButton" mnemonicParsing="false" prefWidth="150.0" text="Prepare" />

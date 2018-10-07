@@ -9,7 +9,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -27,11 +26,6 @@ import javafx.scene.control.ToggleGroup;
  */
 public class CustomerFXMLController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
-    
-    
     OrderSystem orderSystem;
     
     //first partition - "customer details"
@@ -50,6 +44,7 @@ public class CustomerFXMLController implements Initializable {
     
     //third partion - "order status"
     @FXML ListView pendingOrdersListView;
+    ObservableList<Order> waitingOrdersObservableList;
     @FXML ListView servedOrdersListView;
     
     
@@ -66,6 +61,9 @@ public class CustomerFXMLController implements Initializable {
     @FXML Button clearDisplayButton;
     @FXML Button quitButton;
     
+    /**
+     * Initializes the CustomerFXMLController class.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -80,6 +78,7 @@ public class CustomerFXMLController implements Initializable {
         setupComboBoxes();
     }
 
+    @FXML
     private void enterDataButtonClicked()
     {
         //check if data is valid
@@ -89,25 +88,49 @@ public class CustomerFXMLController implements Initializable {
             Order newOrder = new Order(
                     customerNameTextField.getText(),
                     Integer.parseInt(tableNumberTextField.getText()),
-                    radioButtonToggleGroup.getSelectedToggle().getUserData().toString(), 
+                    radioButtonToggleGroup.getSelectedToggle().getUserData().toString(),
                     foodComboBox.getSelectionModel().getSelectedItem().toString(),
                     beverageComboBox.getSelectionModel().getSelectedItem().toString()
             );
             
             //add above order to the orderSystem
             orderSystem.addNewOrder(newOrder);
+            
+            //reset first and second GUI Partitions
+            resetGUIFirstPartition();
+            resetGUISecondPartition();
         }
+        
+        //setup ObservableList and and show in ListView
+        setupListView();
     }
     
+    /**
+     * Sets Up the pending orders ListView.
+     */
+    private void setupListView()
+    {
+        //creating new ObservableList from existing ArrayList
+        waitingOrdersObservableList = FXCollections.observableArrayList(orderSystem.getWaitingOrders());
+        
+        //assign above ObservableList to pendingOrders ListView
+        pendingOrdersListView.setItems(waitingOrdersObservableList);
+    }
+    
+    /**
+     * Validates the data entered by the user in the first partition (i.e. "Customer Details") of the GUI.
+     */
     private boolean validateFirstPartitionData()
     {
         //check if data has been entered by user
         if( customerNameTextField.getText().length() > 0 && 
+                !customerNameTextField.getText().chars().allMatch(Character::isSpaceChar) &&
                 tableNumberTextField.getText().length() > 0 &&
+                !tableNumberTextField.getText().chars().allMatch(Character::isSpaceChar) &&
                 radioButtonToggleGroup.getSelectedToggle() != null )
         {
             //check if entered data is valid USING LABMDA EXPRESSIONS
-            if( customerNameTextField.getText().chars().allMatch(Character::isLetter) &&
+            if( customerNameTextField.getText().chars().allMatch( n -> Character.isLetter(n) || Character.isSpaceChar(n) ) &&
                     tableNumberTextField.getText().chars().allMatch(Character::isDigit) )
             {
                 return true;
@@ -116,12 +139,17 @@ public class CustomerFXMLController implements Initializable {
         return false;
     }
     
+    /**
+     * Method called by the GUI whenever changes are made to the first partition ("Customer Details").
+     */
     @FXML
     private void firstPartitionAction()
     {
         //check if all needed data has been entered by user
         if( customerNameTextField.getText().length() > 0 && 
+                !customerNameTextField.getText().chars().allMatch(Character::isSpaceChar) &&
                 tableNumberTextField.getText().length() > 0 &&
+                !tableNumberTextField.getText().chars().allMatch(Character::isSpaceChar) &&
                 radioButtonToggleGroup.getSelectedToggle() != null )
         {
             //enable comboBoxes
@@ -136,6 +164,9 @@ public class CustomerFXMLController implements Initializable {
         }
     }
     
+    /**
+     * Validates the data entered by the user in the second partition (i.e. "Choose Menu Items") of the GUI. 
+     */
     private boolean validateSecondPartionData()
     {
         //check if both comboBoxes are selected
@@ -149,8 +180,13 @@ public class CustomerFXMLController implements Initializable {
     private void setRadioButtonToggleGroup() 
     {
         breakfastRadioButton.setToggleGroup(radioButtonToggleGroup);
+        breakfastRadioButton.setUserData("Breakfast");
+        
         lunchRadioButton.setToggleGroup(radioButtonToggleGroup);
+        lunchRadioButton.setUserData("Lunch");
+        
         dinnerRadioButton.setToggleGroup(radioButtonToggleGroup);
+        dinnerRadioButton.setUserData("Dinner");
     }
     
     private void setupComboBoxes()
@@ -172,4 +208,20 @@ public class CustomerFXMLController implements Initializable {
         beverageComboBox.setDisable(true);
     }
     
+    private void resetGUIFirstPartition()
+    {
+        customerNameTextField.clear();
+        tableNumberTextField.clear();
+        breakfastRadioButton.setSelected(false);
+        lunchRadioButton.setSelected(false);
+        dinnerRadioButton.setSelected(false);
+    }
+    
+    private void resetGUISecondPartition()
+    {
+        foodComboBox.getSelectionModel().clearSelection();
+        foodComboBox.setDisable(true);
+        beverageComboBox.getSelectionModel().clearSelection();
+        beverageComboBox.setDisable(true);
+    }
 }
