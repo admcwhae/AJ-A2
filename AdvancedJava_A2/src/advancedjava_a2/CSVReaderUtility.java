@@ -8,6 +8,7 @@ package advancedjava_a2;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,8 +17,17 @@ import java.util.List;
  */
 public class CSVReaderUtility {
     
-    public static void readAllDataFromCSV(String fileName) 
+    /**
+     * Read all the data from a CSV file and returns it as a list
+     * 
+     * @param File Name
+     * 
+     * @return List containing all data
+     */
+    public static List<String[]> readAllDataFromCSV(String fileName) 
     { 
+        List<String[]> allData = new ArrayList<String[]>();
+        
         try { 
   
             // Create an object of filereader class 
@@ -29,18 +39,20 @@ public class CSVReaderUtility {
             CSVReader csvReader = new CSVReaderBuilder(filereader) 
                                       .withSkipLines(1) 
                                       .build(); 
-            List<String[]> allData = csvReader.readAll(); 
+            allData =  csvReader.readAll(); 
   
             // print Data 
-            for (String[] row : allData) { 
-                for (String cell : row) { 
-                    System.out.print(cell + "\t"); 
-                } 
-                System.out.println(); 
-            } 
+//            for (String[] row : allData) { 
+//                for (String cell : row) { 
+//                    System.out.print(cell + "\t"); 
+//                } 
+//                System.out.println(); 
+//            } 
         } 
         catch (Exception e) { 
             e.printStackTrace(); 
         } 
+        
+        return allData;
     }
 }
