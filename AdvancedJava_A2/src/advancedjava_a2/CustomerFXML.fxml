@@ -27,8 +27,8 @@
       <Separator layoutX="43.0" layoutY="672.0" prefWidth="200.0" />
       <VBox alignment="CENTER" layoutX="43.0" layoutY="356.0" prefHeight="122.0" prefWidth="595.0" spacing="5.0">
          <children>
-            <Label text="Pending Orders" />
-            <ListView fx:id="pendingOrdersListView" />
+            <Label text="Waiting Orders" />
+            <ListView fx:id="waitingOrdersListView" />
          </children>
       </VBox>
       <VBox alignment="CENTER" layoutX="664.0" layoutY="356.0" prefHeight="122.0" prefWidth="582.0" spacing="5.0">
@@ -42,10 +42,10 @@
           <Button fx:id="enterDataButton" mnemonicParsing="false" onAction="#enterDataButtonClicked" prefWidth="150.0" text="Enter Data" />
             <Button fx:id="displayChoicesButton" mnemonicParsing="false" prefWidth="150.0" text="Display Choices" />
             <Button fx:id="displayOrderButton" mnemonicParsing="false" prefWidth="150.0" text="Display Order" />
-            <Button fx:id="prepareButton" mnemonicParsing="false" prefWidth="150.0" text="Prepare" />
-            <Button fx:id="billButton" mnemonicParsing="false" prefWidth="150.0" text="Bill" />
+            <Button fx:id="prepareButton" mnemonicParsing="false" onAction="#prepareButtonClicked" prefWidth="150.0" text="Prepare" />
+            <Button fx:id="billButton" mnemonicParsing="false" onAction="#billButtonClicked" prefWidth="150.0" text="Bill" />
             <Button fx:id="clearDisplayButton" mnemonicParsing="false" prefWidth="150.0" text="Clear Display" />
-            <Button fx:id="quitButton" mnemonicParsing="false" prefWidth="150.0" text="Quit" />
+            <Button fx:id="quitButton" mnemonicParsing="false" onAction="#quitButtonClicked" prefWidth="150.0" text="Quit" />
          </children>
       </HBox>
       <HBox alignment="CENTER" layoutX="14.0" layoutY="96.0" spacing="120.0" AnchorPane.leftAnchor="14.0">

@@ -61,12 +61,12 @@ public class OrderSystem {
     }
     
     public void billOrder(Order servedOrder) {
-        // Removes order from waiting orders list
-        waitingOrders.remove(servedOrder);
-        // Adds order to served orders list
-        servedOrders.add(servedOrder);
-        // Sets the status in the order to served
-        servedOrder.serveOrder();        
+        // Removes order from served orders list
+        servedOrders.remove(servedOrder);
+        // Adds order to billed orders list
+        billedOrders.add(servedOrder);
+        // Sets the status in the order to billed
+        servedOrder.billOrder();        
     }
 
     public ArrayList<Order> getWaitingOrders() {
