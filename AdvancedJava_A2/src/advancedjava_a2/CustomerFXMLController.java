@@ -40,6 +40,7 @@ public class CustomerFXMLController implements Initializable {
     //second partition - "choose menu items"
     @FXML ComboBox foodComboBox;
     @FXML ComboBox beverageComboBox;
+    Menu menu = new Menu();
     
     
     //third partion - "order status"
@@ -76,7 +77,9 @@ public class CustomerFXMLController implements Initializable {
         orderSystem = new OrderSystem();
         
         //setup ComboBoxes
-        setupComboBoxes();
+        //setupComboBoxes();
+        foodComboBox.setDisable(true);
+        beverageComboBox.setDisable(true);
         setupListView();
     }
 
@@ -184,6 +187,7 @@ public class CustomerFXMLController implements Initializable {
                 radioButtonToggleGroup.getSelectedToggle() != null )
         {
             //enable comboBoxes
+            setupComboBoxes(radioButtonToggleGroup.getSelectedToggle().getUserData().toString());
             foodComboBox.setDisable(false);
             beverageComboBox.setDisable(false);
         }
@@ -228,7 +232,7 @@ public class CustomerFXMLController implements Initializable {
         dinnerRadioButton.setUserData("Dinner");
     }
     
-    private void setupComboBoxes()
+    private void setupComboBoxes( String mealType )
     {
         ObservableList<String> options = FXCollections.observableArrayList(
             "Option 1",
@@ -236,14 +240,17 @@ public class CustomerFXMLController implements Initializable {
             "Option 3"
         );
         
+        ObservableList<MenuItem> foodList = FXCollections.observableArrayList(menu.getMenuItemsByMealType( mealType, "Food" ));
+        ObservableList<MenuItem> beverageList = FXCollections.observableArrayList(menu.getMenuItemsByMealType( mealType, "Beverage" ));
+        
         //adding sample values
         foodComboBox.getItems().clear();
-        foodComboBox.getItems().addAll(options);
+        foodComboBox.getItems().addAll(foodList);
         foodComboBox.setDisable(true);
         
         //adding sample values
         beverageComboBox.getItems().clear();
-        beverageComboBox.getItems().addAll(options);
+        beverageComboBox.getItems().addAll(beverageList);
         beverageComboBox.setDisable(true);
     }
     

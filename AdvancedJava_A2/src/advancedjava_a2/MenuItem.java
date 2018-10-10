@@ -131,5 +131,11 @@ public class MenuItem {
     public void setMenuItemId(int menuItemId) {
         this.menuItemId = menuItemId;
     }
+    
+    @Override
+    public String toString()
+    {
+        return this.itemName;
+    }
      
 }
