@@ -75,9 +75,8 @@ public class CustomerFXMLController implements Initializable {
         
         //create new OrderSystem object
         orderSystem = new OrderSystem();
-        
+         
         //setup ComboBoxes
-        //setupComboBoxes();
         foodComboBox.setDisable(true);
         beverageComboBox.setDisable(true);
         setupListView();
@@ -144,7 +143,7 @@ public class CustomerFXMLController implements Initializable {
         if (tableNumberTextField.getText().isEmpty() || tableNumberTextField.getText().equals(null))
             throw new Exception("Please enter a table number.");   
         // make sure that table number is a number
-        if (!tableNumberTextField.getText().chars().allMatch(Character::isDigit)) 
+        if (!tableNumberTextField.getText().chars().allMatch( n -> Character.isDigit(n) )) 
             throw new Exception("Please ensure table number is a digit.");
         if (radioButtonToggleGroup.getSelectedToggle() == null)
             throw new Exception("Please select one of the meal options.");
@@ -164,7 +163,7 @@ public class CustomerFXMLController implements Initializable {
 //                radioButtonToggleGroup.getSelectedToggle() != null )
 //        {
 //            //check if entered data is valid USING LABMDA EXPRESSIONS
-//            if( customerNameTextField.getText().chars().allMatch( n -> Character.isLetter(n) || Character.isSpaceChar(n) ) &&
+//            if( customerNameTextField.getText().chars().allMatch( n -> {Character.isLetter(n) || Character.isSpaceChar(n)} ) &&
 //                    tableNumberTextField.getText().chars().allMatch(Character::isDigit) )
 //            {
 //                return true;
@@ -234,12 +233,7 @@ public class CustomerFXMLController implements Initializable {
     
     private void setupComboBoxes( String mealType )
     {
-        ObservableList<String> options = FXCollections.observableArrayList(
-            "Option 1",
-            "Option 2",
-            "Option 3"
-        );
-        
+        //create ObservableLists from ArrayList for use in comboBoxes
         ObservableList<MenuItem> foodList = FXCollections.observableArrayList(menu.getMenuItemsByMealType( mealType, "Food" ));
         ObservableList<MenuItem> beverageList = FXCollections.observableArrayList(menu.getMenuItemsByMealType( mealType, "Beverage" ));
         

@@ -132,6 +132,11 @@ public class MenuItem {
         this.menuItemId = menuItemId;
     }
     
+    /**
+     * Displays the name of the menu item in the GUI
+     * 
+     * @return String Menu item name
+     */
     @Override
     public String toString()
     {
