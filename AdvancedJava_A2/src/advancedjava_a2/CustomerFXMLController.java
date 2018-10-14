@@ -9,15 +9,21 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -50,11 +56,22 @@ public class CustomerFXMLController implements Initializable {
     ObservableList<Order> servedOrdersObservableList;
     
     
-    //fourth partition - "nutrition information"
-    @FXML TableView nutritionInformationTableView;
+    //fourth partition - "nutrition information & order table"
+    @FXML TableView<MenuItem> nutritionInformationTableView;
+        @FXML TableColumn<MenuItem, String> itemNameColumn;
+        @FXML TableColumn<MenuItem, Double> energyColumn;
+        @FXML TableColumn<MenuItem, Double> proteinColumn;
+        @FXML TableColumn<MenuItem, Double> carbohydrateColumn;
+        @FXML TableColumn<MenuItem, Double> totalFatColumn;
+        @FXML TableColumn<MenuItem, Double> fibreColumn;
+        @FXML TableColumn<MenuItem, Double> priceColumn;
+    @FXML TableView<Order> orderInformationTableView;
+        @FXML TableColumn<Order, String> customerNameColumn;
+        @FXML TableColumn<Order, String> orderedItemsColumn;
     
     
     //fifth partition - "command buttons"
+    @FXML Separator bottomSeparator;
     @FXML Button enterDataButton;
     @FXML Button displayChoicesButton;
     @FXML Button displayOrderButton;
@@ -65,6 +82,8 @@ public class CustomerFXMLController implements Initializable {
     
     /**
      * Initializes the CustomerFXMLController class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,6 +99,19 @@ public class CustomerFXMLController implements Initializable {
         foodComboBox.setDisable(true);
         beverageComboBox.setDisable(true);
         setupListView();
+        
+        //setup tableColumns
+        setupTableColumns();
+        
+        //setup GUI listener events
+        eventListenerBinder();
+    }
+    
+    private void eventListenerBinder()
+    {
+        clearDisplayButton.setOnAction((ActionEvent event) -> {
+            clearDisplayButtonClicked();
+        });
     }
 
     //called by the UI
@@ -126,6 +158,32 @@ public class CustomerFXMLController implements Initializable {
         
         //assign above ObservableList to servedOrders ListView
         servedOrdersListView.setItems(servedOrdersObservableList);
+        
+        //disable prepare and bill buttons
+        prepareButton.setDisable(true);
+        billButton.setDisable(true);
+        
+        //set OnClick event handler for waitingOrdersList
+        //lambda used in event handling
+        waitingOrdersListView.setOnMouseClicked((MouseEvent event) -> {
+            if(!waitingOrdersListView.getSelectionModel().isEmpty())
+            {
+                prepareButton.setDisable(false);
+            }
+            servedOrdersListView.getSelectionModel().clearSelection();
+            billButton.setDisable(true);
+        });
+        
+        //set OnClick event handler for servedOrdersList
+        //lambda used in event handling
+        servedOrdersListView.setOnMouseClicked((MouseEvent event) -> {
+            if(!servedOrdersListView.getSelectionModel().isEmpty())
+            {
+                billButton.setDisable(false);
+            }
+            waitingOrdersListView.getSelectionModel().clearSelection();
+            prepareButton.setDisable(true);
+        });
     }
     
     /**
@@ -137,14 +195,27 @@ public class CustomerFXMLController implements Initializable {
         boolean result = true;
         try {
         // test customer name
-        if (customerNameTextField.getText().isEmpty() || customerNameTextField.getText().equals(null)) 
+        if (customerNameTextField.getText().isEmpty() || customerNameTextField.getText() == null)
+        {
+            customerNameTextField.setStyle("-fx-text-inner-color: red;");
             throw new Exception("Please enter a name.");
+        }
+        if( !customerNameTextField.getText().chars().allMatch( n -> Character.isLetter(n) || Character.isSpaceChar(n) ) )
+        {
+            customerNameTextField.setStyle("-fx-text-inner-color: red;");
+            throw new Exception("Please ensure name contains alphabets or spaces only.");
+        }
+        
         // test table number
-        if (tableNumberTextField.getText().isEmpty() || tableNumberTextField.getText().equals(null))
+        if (tableNumberTextField.getText().isEmpty() || tableNumberTextField.getText() == null)
             throw new Exception("Please enter a table number.");   
         // make sure that table number is a number
         if (!tableNumberTextField.getText().chars().allMatch( n -> Character.isDigit(n) )) 
+        {
+            tableNumberTextField.setStyle("-fx-text-inner-color: red;");
             throw new Exception("Please ensure table number is a digit.");
+        }
+        
         if (radioButtonToggleGroup.getSelectedToggle() == null)
             throw new Exception("Please select one of the meal options.");
         
@@ -154,22 +225,6 @@ public class CustomerFXMLController implements Initializable {
             result = false;
         }
         return result;
-        
-//        //check if data has been entered by user
-//        if( customerNameTextField.getText().length() > 0 && 
-//                !customerNameTextField.getText().chars().allMatch(Character::isSpaceChar) &&
-//                tableNumberTextField.getText().length() > 0 &&
-//                !tableNumberTextField.getText().chars().allMatch(Character::isSpaceChar) &&
-//                radioButtonToggleGroup.getSelectedToggle() != null )
-//        {
-//            //check if entered data is valid USING LABMDA EXPRESSIONS
-//            if( customerNameTextField.getText().chars().allMatch( n -> {Character.isLetter(n) || Character.isSpaceChar(n)} ) &&
-//                    tableNumberTextField.getText().chars().allMatch(Character::isDigit) )
-//            {
-//                return true;
-//            }
-//        }
-//        return false;
     }
     
     /**
@@ -178,6 +233,10 @@ public class CustomerFXMLController implements Initializable {
     @FXML
     private void firstPartitionAction()
     {
+        customerNameTextField.setStyle("-fx-text-inner-color: black;");
+        tableNumberTextField.setStyle("-fx-text-inner-color: black;");
+        
+        
         //check if all needed data has been entered by user
         if( customerNameTextField.getText().length() > 0 && 
                 !customerNameTextField.getText().chars().allMatch(Character::isSpaceChar) &&
@@ -248,6 +307,27 @@ public class CustomerFXMLController implements Initializable {
         beverageComboBox.setDisable(true);
     }
     
+    private void setupTableColumns()
+    {
+        //for nutrition table
+        itemNameColumn.setCellValueFactory(new PropertyValueFactory<MenuItem, String>("itemName"));
+        energyColumn.setCellValueFactory(new PropertyValueFactory<MenuItem, Double>("energy"));
+        proteinColumn.setCellValueFactory(new PropertyValueFactory<MenuItem, Double>("protein"));
+        carbohydrateColumn.setCellValueFactory(new PropertyValueFactory<MenuItem, Double>("carbohydrates"));
+        totalFatColumn.setCellValueFactory(new PropertyValueFactory<MenuItem, Double>("fat"));
+        fibreColumn.setCellValueFactory(new PropertyValueFactory<MenuItem, Double>("dietaryFibre"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<MenuItem, Double>("price"));
+        
+        //for order table
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("customerName"));
+        orderedItemsColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("orderedItems"));
+        
+        //hide both tables & bottom separator bar
+        nutritionInformationTableView.setVisible(false);
+        orderInformationTableView.setVisible(false);
+        bottomSeparator.setVisible(false);
+    }
+    
     private void resetGUIFirstPartition()
     {
         customerNameTextField.clear();
@@ -263,6 +343,19 @@ public class CustomerFXMLController implements Initializable {
         foodComboBox.setDisable(true);
         beverageComboBox.getSelectionModel().clearSelection();
         beverageComboBox.setDisable(true);
+    }
+    
+    private void resetGUIThirdPartition()
+    {
+        waitingOrdersListView.getSelectionModel().clearSelection();
+        servedOrdersListView.getSelectionModel().clearSelection();
+    }
+    
+    private void resetGUIFourthPartition()
+    {
+        nutritionInformationTableView.setVisible(false);
+        orderInformationTableView.setVisible(false);
+        bottomSeparator.setVisible(false);
     }
     
     @FXML
@@ -298,6 +391,88 @@ public class CustomerFXMLController implements Initializable {
         }
         catch (Exception ex) {
             AlertUtility.showError(ex.getMessage());
+        }
+    }
+    
+    @FXML
+    private void displayChoicesButtonClicked()
+    {
+        if(foodComboBox.getSelectionModel().isEmpty() || beverageComboBox.getSelectionModel().isEmpty())
+        {
+            if(foodComboBox.getSelectionModel().isEmpty())
+                AlertUtility.showError("A food item must be selected to View Choices.");
+            else
+                AlertUtility.showError("A beverage item must be selected to View Choices.");
+        }
+        else
+        {
+            orderInformationTableView.setVisible(false);
+            nutritionInformationTableView.setVisible(true);
+            bottomSeparator.setVisible(true);
+            
+            ObservableList<MenuItem> menuItemObservableList = FXCollections.observableArrayList();
+            MenuItem tempMenuItem;
+
+            //get selected Object from comboBoxes and cast to MenuItem
+            menuItemObservableList.add((MenuItem)foodComboBox.getSelectionModel().getSelectedItem());
+            menuItemObservableList.add((MenuItem)beverageComboBox.getSelectionModel().getSelectedItem());
+
+            double price = menuItemObservableList.get(0).getPrice() + menuItemObservableList.get(1).getPrice();
+            double energy = menuItemObservableList.get(0).getEnergy() + menuItemObservableList.get(1).getEnergy();
+            double protein = menuItemObservableList.get(0).getProtein()+ menuItemObservableList.get(1).getProtein();
+            double carbohydrate = menuItemObservableList.get(0).getCarbohydrates()+ menuItemObservableList.get(1).getCarbohydrates();
+            double fat = menuItemObservableList.get(0).getFat()+ menuItemObservableList.get(1).getFat();
+            double dietaryFibre = menuItemObservableList.get(0).getDietaryFibre()+ menuItemObservableList.get(1).getDietaryFibre();
+
+            //tempMenuItem = new MenuItem(" ", " ", " ", Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0 );
+            //menuItemObservableList.add(tempMenuItem);
+            
+            tempMenuItem = new MenuItem(" ", " ", "Total Nutrients for each Type", price, energy, protein, carbohydrate, fat, dietaryFibre, 0 );
+            menuItemObservableList.add(tempMenuItem);
+
+
+            nutritionInformationTableView.setItems(menuItemObservableList);
+        }
+    }
+    
+    @FXML
+    private void displayOrderButtonClicked()
+    {
+        if(waitingOrdersListView.getSelectionModel().isEmpty() && servedOrdersListView.getSelectionModel().isEmpty())
+        {
+            AlertUtility.showError("An order must be selected to View Order.");
+        }
+        else
+        {
+            orderInformationTableView.setVisible(true);
+            nutritionInformationTableView.setVisible(false);
+            bottomSeparator.setVisible(true);
+            
+            ObservableList<Order> selectedOrderObservableList = FXCollections.observableArrayList();
+            selectedOrderObservableList.removeAll();
+            
+            if(!waitingOrdersListView.getSelectionModel().isEmpty())
+            {
+                selectedOrderObservableList.add((Order)waitingOrdersListView.getSelectionModel().getSelectedItem());
+            }
+            
+            if(!servedOrdersListView.getSelectionModel().isEmpty())
+            {
+                selectedOrderObservableList.add((Order)servedOrdersListView.getSelectionModel().getSelectedItem());
+            }
+            
+            orderInformationTableView.setItems(selectedOrderObservableList);
+        }
+    }
+    
+    private void clearDisplayButtonClicked()
+    {
+        if(AlertUtility.showConfirmation("Are you sure you want to clear the display?"))
+        {
+            resetGUIFirstPartition();
+            resetGUISecondPartition();
+            resetGUIThirdPartition();
+            resetGUIFourthPartition();
         }
     }
     

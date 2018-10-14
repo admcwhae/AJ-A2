@@ -19,6 +19,8 @@ public class Order {
     private String foodItem;
     // drink selected
     private String beverageItem;
+    // string containing both food and beverage
+    private String orderedItems;
     // order status, 
     private String orderStatus;
     
@@ -37,6 +39,7 @@ public class Order {
         this.mealType = mealType;
         this.foodItem = foodItem;
         this.beverageItem = beverageItem;
+        this.orderedItems = foodItem + ", " + beverageItem;
         this.orderStatus = "waiting";
     }
     
@@ -118,6 +121,10 @@ public class Order {
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
+    }
+    
+    public String getOrderedItems() {
+        return this.orderedItems;
     }
 }
 
