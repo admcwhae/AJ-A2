@@ -1,0 +1,8 @@
+database endpoint advancedjavadb.ckgrcw20igrb.ap-southeast-2.rds.amazonaws.com
+
+database name : orderSystemDb
+username : admin
+password : advancedjava
+
+phpmyadmin access login using above username and password
+http://ec2-13-211-162-63.ap-southeast-2.compute.amazonaws.com/phpmyadmin/
