@@ -6,11 +6,16 @@
 package advancedjava_a2;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -113,6 +118,33 @@ public class CustomerFXMLController implements Initializable {
             clearDisplayButtonClicked();
         });
     }
+    
+    //call function to run update queries
+    private void runUpdateQuery(String updateQuery) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            String dbUrl = "jdbc:mysql://advancedjavadb.ckgrcw20igrb.ap-southeast-2.rds.amazonaws.com:3306/orderSystemDb?autoReconnect=true&useSSL=false";
+            Connection conn = DriverManager.getConnection(dbUrl, "admin", "advancedjava");
+            try {
+                /* you use the connection here */
+                String statement = updateQuery;//"INSERT INTO test VALUES (3);";
+                try (Statement stmt = conn.createStatement()) {
+                    stmt.executeUpdate(statement);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } finally {
+                //It's important to close the connection when you are done with it
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex); 
+        }
+    }
 
     //called by the UI
     @FXML
@@ -136,6 +168,16 @@ public class CustomerFXMLController implements Initializable {
             //reset first and second GUI Partitions
             resetGUIFirstPartition();
             resetGUISecondPartition();
+            
+            //enter order into database
+//            runUpdateQuery(
+//                        "INSERT INTO TABLE_NAME VALUES('" + 
+//                        newOrder.getCustomerName() + "', '" +
+//                        Integer.toString(newOrder.getTableNumber()) + "', '" +
+//                        newOrder.getMealType() + "', '" +
+//                        newOrder.getFoodItem() + "', '" +
+//                        newOrder.getBeverageItem() + "');" 
+//            );
         }
         
         //setup ObservableList and and show in ListView
