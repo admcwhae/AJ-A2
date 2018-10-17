@@ -3,11 +3,18 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advancedjava_a2.FXMLDocumentController">
     <children>
-        <Button fx:id="sampleButton" layoutX="377.0" layoutY="251.0" onAction="#handleButtonAction" text="Begin" />
+        <Button fx:id="sampleButton" layoutX="740.0" layoutY="561.0" onAction="#handleButtonAction" text="Begin" />
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <Button fx:id="customerModeButton" layoutX="349.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleCustomerModeButtonAction" text="Customer Mode" />
+      <VBox layoutX="340.0" layoutY="243.0" spacing="20.0">
+         <children>
+            <Button fx:id="customerModeButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleCustomerModeButtonAction" prefHeight="25.0" prefWidth="120.0" text="Customer Mode" />
+            <Button fx:id="chefModeButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleChefModeButtonAction" prefWidth="120.0" text="Chef Mode" />
+            <Button fx:id="billerModeButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBillerModeButtonAction" prefWidth="120.0" text="Biller Mode" />
+         </children>
+      </VBox>
     </children>
 </AnchorPane>

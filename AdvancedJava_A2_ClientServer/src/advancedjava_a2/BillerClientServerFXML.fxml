@@ -14,24 +14,24 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" minHeight="730.0" minWidth="1280.0" prefHeight="730.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="advancedjava_a2.CustomerFXMLController">
+<AnchorPane id="AnchorPane" minHeight="620.0" minWidth="1280.0" prefHeight="620.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="advancedjava_a2.CustomerFXMLController">
    <children>
-      <Separator layoutX="14.0" layoutY="145.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      <Separator layoutX="10.0" layoutY="242.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      <Separator layoutX="43.0" layoutY="429.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      <Separator fx:id="bottomSeparator" layoutX="43.0" layoutY="615.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Separator layoutX="10.0" layoutY="179.0" prefHeight="3.0" prefWidth="1260.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Separator layoutX="10.0" layoutY="417.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Separator layoutX="10.0" layoutY="385.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Separator fx:id="bottomSeparator" layoutX="10.0" layoutY="499.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <HBox alignment="CENTER" layoutX="85.0" layoutY="652.0" prefHeight="25.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="85.0">
          <children>
-          <Button fx:id="enterDataButton" mnemonicParsing="false" onAction="#enterDataButtonClicked" prefWidth="150.0" text="Enter Data" />
-            <Button fx:id="displayChoicesButton" mnemonicParsing="false" onAction="#displayChoicesButtonClicked" prefWidth="150.0" text="Display Choices" />
+            <Button fx:id="displayOrderButton" mnemonicParsing="false" onAction="#displayOrderButtonClicked" prefWidth="150.0" text="Display Order" />
+            <Button fx:id="billButton" mnemonicParsing="false" onAction="#billButtonClicked" prefWidth="150.0" text="Bill" />
             <Button fx:id="clearDisplayButton" mnemonicParsing="false" prefWidth="150.0" text="Clear Display" />
             <Button fx:id="quitButton" mnemonicParsing="false" onAction="#quitButtonClicked" prefWidth="150.0" text="Quit" />
-            <Button fx:id="displayOrderButton" mnemonicParsing="false" onAction="#displayOrderButtonClicked" prefWidth="150.0" text="Display Order" visible="false" />
+          <Button fx:id="enterDataButton" mnemonicParsing="false" onAction="#enterDataButtonClicked" prefWidth="150.0" text="Enter Data" visible="false" />
+            <Button fx:id="displayChoicesButton" mnemonicParsing="false" onAction="#displayChoicesButtonClicked" prefWidth="150.0" text="Display Choices" visible="false" />
             <Button fx:id="prepareButton" mnemonicParsing="false" onAction="#prepareButtonClicked" prefWidth="150.0" text="Prepare" visible="false" />
-            <Button fx:id="billButton" mnemonicParsing="false" onAction="#billButtonClicked" prefWidth="150.0" text="Bill" visible="false" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="14.0" layoutY="96.0" spacing="120.0" AnchorPane.leftAnchor="14.0">
+      <HBox alignment="CENTER" layoutX="14.0" layoutY="395.0" spacing="120.0" visible="false" AnchorPane.leftAnchor="14.0">
          <children>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
@@ -59,7 +59,7 @@
             </HBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="14.0" layoutY="183.0" spacing="120.0" AnchorPane.leftAnchor="14.0">
+      <HBox alignment="CENTER" layoutX="14.0" layoutY="420.0" spacing="120.0" visible="false" AnchorPane.leftAnchor="14.0">
          <children>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
@@ -75,7 +75,7 @@
             </HBox>
          </children>
       </HBox>
-      <StackPane layoutX="25.0" layoutY="447.0" prefHeight="146.0" prefWidth="121.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+      <StackPane layoutX="25.0" layoutY="210.0" prefHeight="146.0" prefWidth="121.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
             <TableView fx:id="nutritionInformationTableView" prefHeight="105.0" prefWidth="1079.0">
               <columns>
@@ -102,14 +102,8 @@
             </TableView>
          </children>
       </StackPane>
-      <HBox alignment="CENTER_LEFT" layoutX="18.0" layoutY="265.0" prefHeight="100.0" spacing="20.0" visible="false" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="100.0" spacing="20.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label text="Waiting Orders" />
-                  <ListView fx:id="waitingOrdersListView" prefHeight="78.0" />
-               </children>
-            </VBox>
             <VBox alignment="CENTER" prefHeight="122.0" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Served Orders" />
@@ -118,5 +112,11 @@
             </VBox>
          </children>
       </HBox>
-   </children>  
+      <VBox alignment="CENTER" layoutX="880.0" layoutY="420.0" prefHeight="32.0" prefWidth="200.0" spacing="5.0" visible="false">
+         <children>
+            <Label text="Waiting Orders" />
+            <ListView fx:id="waitingOrdersListView" prefHeight="78.0" />
+         </children>
+      </VBox>
+   </children>    
 </AnchorPane>

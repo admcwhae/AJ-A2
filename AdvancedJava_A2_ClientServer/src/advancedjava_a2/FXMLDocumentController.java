@@ -28,6 +28,8 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML Button sampleButton;
     @FXML Button customerModeButton;
+    @FXML Button chefModeButton;
+    @FXML Button billerModeButton;
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -48,6 +50,36 @@ public class FXMLDocumentController implements Initializable {
     private void handleCustomerModeButtonAction(ActionEvent event) {
         try {
                     Parent mainViewParent = FXMLLoader.load(getClass().getResource("CustomerClientServerFXML.fxml"));
+                    Scene mainViewScene = new Scene(mainViewParent);
+
+                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+                    window.setScene(mainViewScene);
+                    window.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }
+    
+    @FXML
+    private void handleChefModeButtonAction(ActionEvent event) {
+        try {
+                    Parent mainViewParent = FXMLLoader.load(getClass().getResource("ChefClientServerFXML.fxml"));
+                    Scene mainViewScene = new Scene(mainViewParent);
+
+                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+                    window.setScene(mainViewScene);
+                    window.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }
+    
+    @FXML
+    private void handleBillerModeButtonAction(ActionEvent event) {
+        try {
+                    Parent mainViewParent = FXMLLoader.load(getClass().getResource("BillerClientServerFXML.fxml"));
                     Scene mainViewScene = new Scene(mainViewParent);
 
                     Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
