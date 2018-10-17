@@ -40,14 +40,7 @@ public class CSVReaderUtility {
                                       .withSkipLines(1) 
                                       .build(); 
             allData =  csvReader.readAll(); 
-  
-            // print Data 
-//            for (String[] row : allData) { 
-//                for (String cell : row) { 
-//                    System.out.print(cell + "\t"); 
-//                } 
-//                System.out.println(); 
-//            } 
+   
         } 
         catch (Exception e) { 
             e.printStackTrace(); 
