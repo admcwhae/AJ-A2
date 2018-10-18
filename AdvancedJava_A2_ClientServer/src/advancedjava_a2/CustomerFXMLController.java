@@ -97,7 +97,7 @@ public class CustomerFXMLController implements Initializable {
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {       
+    public void initialize(URL url, ResourceBundle rb) {
                                                
         //Assign toggleGroup to radio buttons
         setRadioButtonToggleGroup();

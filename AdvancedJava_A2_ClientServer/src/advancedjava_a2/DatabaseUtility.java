@@ -110,8 +110,7 @@ public class DatabaseUtility{
             Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        }    
         return menuItemsList;
     }
     
