@@ -27,7 +27,7 @@ import javafx.stage.Stage;
  */
 public class FXMLDocumentController implements Initializable {
     
-    Menu menu = new Menu();
+    Menu menu;
     
     @FXML Button sampleButton;
     @FXML Button customerModeButton;
@@ -96,6 +96,8 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        menu = new Menu();
         
         //Create the database
         final String DATABASE_ORDER_SYSTEM_DB_QRY = "CREATE DATABASE IF NOT EXISTS orderSystemDb";
