@@ -408,6 +408,7 @@ public class CustomerFXMLController implements Initializable {
         return result;
     }
 
+    //setup radioButton toggle group
     private void setRadioButtonToggleGroup() 
     {
         breakfastRadioButton.setToggleGroup(radioButtonToggleGroup);
