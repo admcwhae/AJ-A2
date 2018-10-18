@@ -97,7 +97,7 @@ public class CustomerFXMLController implements Initializable {
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {       
+    public void initialize(URL url, ResourceBundle rb) {
                                                
         //Assign toggleGroup to radio buttons
         setRadioButtonToggleGroup();
@@ -174,6 +174,8 @@ public class CustomerFXMLController implements Initializable {
             // sends a one to the server to indicate that there is a new order to display
             outputToServer.println(1);
             outputToServer.flush();
+            
+            AlertUtility.showDialog("Order successfully placed.");
         }
         
         //setup ObservableList and and show in ListView

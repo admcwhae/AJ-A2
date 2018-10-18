@@ -8,6 +8,7 @@ package advancedjava_a2;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -90,28 +91,46 @@ public class ChefFXMLController implements Initializable {
     @FXML Button clearDisplayButton;
     @FXML Button quitButton;
     
+    PrintWriter outputToServer;
+    Socket socket;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    new Thread( () -> {
-        try {
-            ServerSocket serverSocket = new ServerSocket(5000);
-            Socket socket = serverSocket.accept();
-            BufferedReader inputFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                while (true) {
-                    String line = inputFromClient.readLine();
-                    if (Integer.parseInt(line) == 1) {
-                        System.out.println("Order made, connecting to database.");
-                        
-                        // updates the list of pending orders
-                        setupListView();
+        boolean connected = false; 
+        while (!connected) {
+            String serverAddress = AlertUtility.getServerInput();
+            try { 
+                socket = new Socket(serverAddress, 5001);
+                connected = true;
+                outputToServer = new PrintWriter(socket.getOutputStream());
+                
+                new Thread( () -> {
+                    try {
+                        ServerSocket serverSocket = new ServerSocket(5000);
+                        Socket socket = serverSocket.accept();
+                        BufferedReader inputFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                            while (true) {
+                                String line = inputFromClient.readLine();
+                                if (Integer.parseInt(line) == 1) {
+                                    // updates the list of billed orders
+                                    setupListView();
+                                }
+                            }
                     }
-                }
+                    catch (Exception ex) {
+                        System.out.println(ex.toString());
+                    }
+                    }).start();
+            }
+            catch (ConnectException ex) {
+                System.out.println(ex.toString());
+                AlertUtility.showError("Server cannot connect, please ensure that a bill module is running.");
+            }
+            catch (Exception ex){
+                AlertUtility.showError(ex.toString());
+            }
         }
-        catch (Exception ex) {
-            System.out.println(ex.toString());
-        }
-        }).start();
+
     setupListView();
     }      
     
@@ -366,6 +385,8 @@ public class ChefFXMLController implements Initializable {
             if (AlertUtility.showConfirmation("Are you sure you want to prepare the selected order?")) {
                 String statement = "UPDATE orders SET `status` = 'prepared' WHERE `orderId` = " + orderId + ";";
                 DatabaseUtility.performStatement(statement);
+                outputToServer.println(1);
+                outputToServer.flush();
                 setupListView();
                 AlertUtility.showDialog("Order prepared.");
             }

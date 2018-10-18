@@ -102,18 +102,18 @@
             </TableView>
          </children>
       </StackPane>
-      <HBox alignment="CENTER_LEFT" layoutX="18.0" layoutY="265.0" prefHeight="100.0" spacing="20.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+      <HBox alignment="CENTER_LEFT" layoutX="18.0" layoutY="265.0" prefWidth="1252.0" spacing="20.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER" prefWidth="200.0" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Waiting Orders" />
-                  <ListView fx:id="waitingOrdersListView" prefHeight="78.0" />
+                  <ListView fx:id="waitingOrdersListView" prefHeight="120.0" prefWidth="616.0" />
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="122.0" spacing="5.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Served Orders" />
-                  <ListView fx:id="servedOrdersListView" prefHeight="100.0" prefWidth="200.0" />
+                  <ListView fx:id="servedOrdersListView" prefHeight="120.0" prefWidth="200.0" />
                </children>
             </VBox>
          </children>
