@@ -8,7 +8,8 @@ package advancedjava_a2;
 import java.util.ArrayList;
 
 /**
- *
+ * Ordering System of the Restaurant
+ * 
  * @author Alex McWhae
  */
 public class OrderSystem {
@@ -39,18 +40,35 @@ public class OrderSystem {
         waitingOrders.add(order);
     }
     
+    /**
+     * Gets the waiting order
+     * 
+     * @param index
+     * @return order
+     */
     public Order getWaitingOrder(int index) {
         Order returnOrder = null;
         returnOrder = waitingOrders.get(index);
         return returnOrder;
     }
     
+    /**
+     * Gets the served order
+     * 
+     * @param index
+     * @return order
+     */
     public Order getServedOrder(int index) {
         Order returnOrder = null;
         returnOrder = servedOrders.get(index);
         return returnOrder;
     }
     
+    /**
+     * Serves the order
+     * 
+     * @param waitingOrder
+     */
     public void serveOrder(Order waitingOrder) {
         // Removes order from waiting orders list
         waitingOrders.remove(waitingOrder);
@@ -60,6 +78,11 @@ public class OrderSystem {
         waitingOrder.serveOrder();
     }
     
+    /**
+     * Bills the order
+     * 
+     * @param servedOrder
+     */
     public void billOrder(Order servedOrder) {
         // Removes order from served orders list
         servedOrders.remove(servedOrder);
@@ -69,14 +92,29 @@ public class OrderSystem {
         servedOrder.billOrder();        
     }
 
+    /**
+     * Gets the list of waiting orders
+     * 
+     * @return waitingOrders
+     */
     public ArrayList<Order> getWaitingOrders() {
         return waitingOrders;
     }
 
+    /**
+     * Gets the list of Served orders
+     * 
+     * @return servedOrders
+     */
     public ArrayList<Order> getServedOrders() {
         return servedOrders;
     }
 
+    /**
+     * Gets the list of billed orders
+     * 
+     * @return billedOrders
+     */
     public ArrayList<Order> getBilledOrders() {
         return billedOrders;
     }

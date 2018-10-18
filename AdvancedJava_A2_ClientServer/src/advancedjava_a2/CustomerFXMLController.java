@@ -33,7 +33,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 /**
- * FXML Controller class
+ * FXML Customer Controller class
  *
  * @author akbar
  */

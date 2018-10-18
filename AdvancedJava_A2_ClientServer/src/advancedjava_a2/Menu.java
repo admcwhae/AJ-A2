@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * The Restaurant Menu
+ * 
  * @author Moiz
  */
 public class Menu {
@@ -24,10 +25,20 @@ public class Menu {
         populateMenuItemsList();
     }
 
+    /**
+     * Gets the Menu Items List
+     * 
+     * @return List of Menu Items
+     */
     public ArrayList<MenuItem> getMenuItemsList() {
         return menuItemsList;
     }
 
+    /**
+     * Sets the Menu Items List
+     * 
+     * @param menuItemsList
+     */
     public void setMenuItemsList(ArrayList<MenuItem> menuItemsList) {
         this.menuItemsList = menuItemsList;
     }

@@ -65,7 +65,12 @@ public class AlertUtility {
         return result;   
     }
     
-        public static String getServerInput() {
+    /**
+     * Gets Servers address from User
+     * 
+     * @return
+     */
+    public static String getServerInput() {
         TextInputDialog dialog = new TextInputDialog("localhost");
  
         dialog.setTitle("Connection Details");

@@ -22,7 +22,8 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
- *
+ * Controller class for Main Screen
+ * 
  * @author AmcwhaeLaptop
  */
 public class FXMLDocumentController implements Initializable {

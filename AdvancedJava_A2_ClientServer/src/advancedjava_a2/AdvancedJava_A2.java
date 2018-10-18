@@ -14,7 +14,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
+ * Startup Class
+ * 
  * @author AmcwhaeLaptop
  */
 public class AdvancedJava_A2 extends Application {

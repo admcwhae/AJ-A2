@@ -35,7 +35,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 /**
- *
+ * Controller class for Chef
+ * 
  * @author AmcwhaeLaptop
  */
 public class ChefFXMLController implements Initializable {
@@ -280,6 +281,11 @@ public class ChefFXMLController implements Initializable {
         dinnerRadioButton.setUserData("Dinner");
     }
     
+    /**
+     * Populates the Food and Beverage Comboboxes
+     * 
+     * @param mealType 
+     */
     private void setupComboBoxes( String mealType )
     {
         //create ObservableLists from ArrayList for use in comboBoxes
