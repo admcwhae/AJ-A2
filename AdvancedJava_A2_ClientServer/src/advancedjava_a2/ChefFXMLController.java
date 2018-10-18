@@ -111,7 +111,14 @@ public class ChefFXMLController implements Initializable {
             System.out.println(ex.toString());
         }
         }).start();
-    setupListView();
+    
+        //setup listView
+        setupListView();
+        //setup tableColumns
+        setupTableColumns();
+        
+        //setup GUI listener events
+        eventListenerBinder();
     }      
     
     private void eventListenerBinder()
@@ -452,7 +459,6 @@ public class ChefFXMLController implements Initializable {
     @FXML
     private void quitButtonClicked() {
         exitProgram();
-        
     }
     
     /**

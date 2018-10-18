@@ -114,8 +114,11 @@ public class CustomerFXMLController implements Initializable {
         setupTableColumns();
         
         //setup GUI listener events
-        eventListenerBinder();
-        
+        eventListenerBinder();        
+    }
+    
+    public void initializeCustomer()
+    {
         boolean connected = false; 
         while (!connected) {
             String serverAddress = AlertUtility.getServerInput();

@@ -37,31 +37,48 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) {
         try {
-                    Parent mainViewParent = FXMLLoader.load(getClass().getResource("CustomerFXML.fxml"));
-                    Scene mainViewScene = new Scene(mainViewParent);
+            Parent mainViewParent = FXMLLoader.load(getClass().getResource("CustomerFXML.fxml"));
+            Scene mainViewScene = new Scene(mainViewParent);
 
-                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-                    window.setScene(mainViewScene);
-                    window.show();
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            window.setScene(mainViewScene);
+            window.show();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
     @FXML
     private void handleCustomerModeButtonAction(ActionEvent event) {
+//        try {
+//            Parent mainViewParent = FXMLLoader.load(getClass().getResource("CustomerClientServerFXML.fxml"));
+//            Scene mainViewScene = new Scene(mainViewParent);
+//
+//            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//
+//            window.setScene(mainViewScene);
+//            window.show();
+//        } catch (IOException ex) {
+//            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
         try {
-                    Parent mainViewParent = FXMLLoader.load(getClass().getResource("CustomerClientServerFXML.fxml"));
-                    Scene mainViewScene = new Scene(mainViewParent);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("CustomerClientServerFXML.fxml"));
+            Parent mainViewParent = loader.load();
+            Scene mainViewScene = new Scene(mainViewParent);
 
-                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            CustomerFXMLController controller = loader.getController();
+            controller.initializeCustomer();
 
-                    window.setScene(mainViewScene);
-                    window.show();
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            window.setScene(mainViewScene);
+            window.show();
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @FXML
