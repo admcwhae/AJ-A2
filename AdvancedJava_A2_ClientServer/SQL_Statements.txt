@@ -1,0 +1,18 @@
+MYSQL STATEMENTS
+create menu table
+CREATE TABLE `orderSystemDb`.`menu` ( `menuId` INT NOT NULL , `type` VARCHAR(10) NOT NULL , `mealType` VARCHAR(10) NOT NULL , `name` VARCHAR(100) NOT NULL , `price` DOUBLE NOT NULL , `energy` DOUBLE NOT NULL , `protein` DOUBLE NOT NULL , `carbohydrates` DOUBLE NOT NULL , `fat` DOUBLE NOT NULL , `fibre` DOUBLE NOT NULL , PRIMARY KEY (`menuId`));
+
+create order table
+CREATE TABLE `orderSystemDb`.`orders` ( `orderId` INT NOT NULL AUTO_INCREMENT, `customerName` VARCHAR(30) NOT NULL , `tableNumber` INT(10) NOT NULL , `foodItem` VARCHAR(100) NOT NULL REFERENCES menu(name) , `beverageItem` VARCHAR(100) NOT NULL REFERENCES menu(name), `status` VARCHAR(100) NOT NULL, PRIMARY KEY (orderId));
+
+get waiting orders 
+SELECT * FROM `orders` WHERE status = 'waiting';
+
+get prepared orders 
+SELECT * FROM `orders` WHERE status = 'prepared';
+
+UPDATE to prepared 
+UPDATE `orders` SET `status` = 'prepared' WHERE `orderId` = 1;
+
+UPDATE to billed
+UPDATE `orders` SET `status` = 'billed' WHERE `orderId` = 1;
