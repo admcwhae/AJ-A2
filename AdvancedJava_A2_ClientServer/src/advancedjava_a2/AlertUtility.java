@@ -43,6 +43,22 @@ public class AlertUtility {
         alert.showAndWait();        
     }
     
+     /**
+     * Displays the about dialog box
+     * 
+     */    
+    public static void showAboutDialog() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("About");
+        alert.setHeaderText("Restaurant Client-Server Program");
+        alert.setContentText("Created by\n"
+                + "\n"
+                + "Moiz (Student ID)\n"
+                + "Alex (Student ID)\n"
+                + "Mirza Akbar Beg (101439582)\n");
+        alert.showAndWait();        
+    }
+    
     /**
      * Prompts the user to confirm something in a dialog, continuing with the program if yes is selected
      * 
@@ -65,7 +81,12 @@ public class AlertUtility {
         return result;   
     }
     
-        public static String getServerInput() {
+    /**
+     * Gets Servers address from User
+     * 
+     * @return
+     */
+    public static String getServerInput() {
         TextInputDialog dialog = new TextInputDialog("localhost");
  
         dialog.setTitle("Connection Details");

@@ -6,7 +6,8 @@
 package advancedjava_a2;
 
 /**
- *
+ * A Customers Order
+ * 
  * @author Alex McWhae
  */
 public class Order {
@@ -48,11 +49,12 @@ public class Order {
     /**
      * Constructor for creating an order object when customer places initially places an order
      * 
+     * @param orderId
      * @param customerName The customer's name.
      * @param tableNumber The table number.
-     * @param mealType The meal type (Breakfast, Lunch, or Dinner).
      * @param foodItem The food item selected from the menu.
      * @param beverageItem The beverage selected from the menu.
+     * @param orderStatus
      */
     public Order(int orderId, String customerName, int tableNumber, String foodItem, String beverageItem, String orderStatus) {
         this.orderId = orderId;
@@ -96,58 +98,126 @@ public class Order {
         return this.orderToString();
     }
 
+    /**
+     * Gets the Customer Name
+     * 
+     * @return customerName
+     */
     public String getCustomerName() {
         return customerName;
     }
 
+    /**
+     * Sets the Customer Name
+     * 
+     * @param customerName
+     */
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
+    /**
+     * Gets the table number
+     * 
+     * @return tableNumber
+     */
     public int getTableNumber() {
         return tableNumber;
     }
 
+    /**
+     * Sets the table number
+     * 
+     * @param tableNumber
+     */
     public void setTableNumber(int tableNumber) {
         this.tableNumber = tableNumber;
     }
 
+    /**
+     * Gets the meal type
+     * 
+     * @return mealType
+     */
     public String getMealType() {
         return mealType;
     }
 
+    /**
+     * Sets the meal type
+     * 
+     * @param mealType
+     */
     public void setMealType(String mealType) {
         this.mealType = mealType;
     }
 
+    /**
+     * Gets the food item
+     * 
+     * @return foodItem
+     */
     public String getFoodItem() {
         return foodItem;
     }
 
+    /**
+     * Sets the food item
+     * 
+     * @param foodItem
+     */
     public void setFoodItem(String foodItem) {
         this.foodItem = foodItem;
     }
 
+    /**
+     * Gets the beverage item
+     * 
+     * @return beverageItem
+     */
     public String getBeverageItem() {
         return beverageItem;
     }
 
+    /**
+     * Sets the Beverage Item
+     * 
+     * @param beverageItem
+     */
     public void setBeverageItem(String beverageItem) {
         this.beverageItem = beverageItem;
     }
 
+    /**
+     * Gets the Order Status
+     * 
+     * @return
+     */
     public String getOrderStatus() {
         return orderStatus;
     }
 
+    /**
+     * Sets the Order Status
+     * 
+     * @param orderStatus
+     */
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
     
+    /**
+     * Gets the Ordered items
+     * @return orderedItems
+     */
     public String getOrderedItems() {
         return this.orderedItems;
     }
 
+    /**
+     * Gets the Order ID
+     * @return orderId
+     */
     public int getOrderId() {
         return orderId;
     }

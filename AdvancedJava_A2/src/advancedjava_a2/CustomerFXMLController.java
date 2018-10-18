@@ -214,6 +214,12 @@ public class CustomerFXMLController implements Initializable {
             tableNumberTextField.setStyle("-fx-text-inner-color: red;");
             throw new Exception("Please ensure table number is a digit.");
         }
+        // ensure table number between 1 and 8
+        if (Integer.parseInt(tableNumberTextField.getText()) < 1 || Integer.parseInt(tableNumberTextField.getText()) > 8) 
+        {
+            tableNumberTextField.setStyle("-fx-text-inner-color: red;");
+            throw new Exception("Table number must be between 1 and 8.");
+        }
         
         if (radioButtonToggleGroup.getSelectedToggle() == null)
             throw new Exception("Please select one of the meal options.");

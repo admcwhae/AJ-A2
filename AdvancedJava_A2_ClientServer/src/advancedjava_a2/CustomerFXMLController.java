@@ -5,8 +5,11 @@
  */
 package advancedjava_a2;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ConnectException;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.Connection;
@@ -18,6 +21,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -33,13 +37,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 /**
- * FXML Controller class
+ * FXML Customer Controller class
  *
  * @author akbar
  */
 public class CustomerFXMLController implements Initializable {
         
     OrderSystem orderSystem;
+    private ArrayList<Order> waitingOrders;
+    private ArrayList<Order> servedOrders;
     PrintWriter outputToServer;
     Socket socket;
     
@@ -137,15 +143,84 @@ public class CustomerFXMLController implements Initializable {
         }
     }
     
+    public void initializeChef()
+    {
+        boolean connected = false; 
+        while (!connected) {
+            String serverAddress = AlertUtility.getServerInput();
+            try { 
+                socket = new Socket(serverAddress, 5001);
+                connected = true;
+                outputToServer = new PrintWriter(socket.getOutputStream());
+                
+                new Thread( () -> {
+                    try {
+                        ServerSocket serverSocket = new ServerSocket(5000);
+                        Socket socket = serverSocket.accept();
+                        BufferedReader inputFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                            while (true) {
+                                String line = inputFromClient.readLine();
+                                if (Integer.parseInt(line) == 1) {
+                                    // updates the list of billed orders
+                                    setupListView();
+                                }
+                            }
+                    }
+                    catch (Exception ex) {
+                        System.out.println(ex.toString());
+                    }
+                    }).start();
+            }
+            catch (ConnectException ex) {
+                System.out.println(ex.toString());
+                AlertUtility.showError("Server cannot connect, please ensure that a bill module is running.");
+            }
+            catch (Exception ex){
+                AlertUtility.showError(ex.toString());
+            }
+        }
+    }
+    
+    public void initializeBiller()
+    {
+        new Thread(() -> {
+            try {
+                ServerSocket serverSocket = new ServerSocket(5001);
+                Socket socket = serverSocket.accept();
+                BufferedReader inputFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                while (true) {
+                    String line = inputFromClient.readLine();
+                    if (Integer.parseInt(line) == 1) {
+                        // updates the list of pending orders
+                        setupListView();
+                    }
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.toString());
+            }
+        }).start();
+    }
+    
     private void eventListenerBinder()
     {
         clearDisplayButton.setOnAction((ActionEvent event) -> {
             clearDisplayButtonClicked();
         });
+        
+        quitButton.setOnAction((ActionEvent event) -> {
+            quitButtonClicked();
+        });
+        
+        enterDataButton.setOnAction((ActionEvent event) -> {
+            enterDataButtonClicked();
+        });
+        
+        displayOrderButton.setOnAction((ActionEvent event) -> {
+            displayOrderButtonClicked();
+        });
     }
     
-    //called by the UI
-    @FXML
+    //called when enterData button is clicked
     private void enterDataButtonClicked()
     {
         //check if data is valid
@@ -177,6 +252,8 @@ public class CustomerFXMLController implements Initializable {
             // sends a one to the server to indicate that there is a new order to display
             outputToServer.println(1);
             outputToServer.flush();
+            
+            AlertUtility.showDialog("Order successfully placed.");
         }
         
         //setup ObservableList and and show in ListView
@@ -188,14 +265,20 @@ public class CustomerFXMLController implements Initializable {
      */
     private void setupListView()
     {
+        // Connect to database and select all the orders that have a status of pending
+        String statement = "SELECT * FROM orders WHERE status = 'waiting';";
+        waitingOrders = DatabaseUtility.getOrdersFromDatabase(statement);
+        statement = "SELECT * FROM orders WHERE status = 'prepared';";
+        servedOrders = DatabaseUtility.getOrdersFromDatabase(statement);
+
         //creating new ObservableList from existing ArrayList
-        waitingOrdersObservableList = FXCollections.observableArrayList(orderSystem.getWaitingOrders());
+        waitingOrdersObservableList = FXCollections.observableArrayList(waitingOrders);
         
         //assign above ObservableList to waitingOrders ListView
         waitingOrdersListView.setItems(waitingOrdersObservableList);
         
         //creating new ObservableList from existing ArrayList
-        servedOrdersObservableList = FXCollections.observableArrayList(orderSystem.getServedOrders());
+        servedOrdersObservableList = FXCollections.observableArrayList(servedOrders);
         
         //assign above ObservableList to servedOrders ListView
         servedOrdersListView.setItems(servedOrdersObservableList);
@@ -255,6 +338,12 @@ public class CustomerFXMLController implements Initializable {
         {
             tableNumberTextField.setStyle("-fx-text-inner-color: red;");
             throw new Exception("Please ensure table number is a digit.");
+        }
+        // ensure table number between 1 and 8
+        if (Integer.parseInt(tableNumberTextField.getText()) < 1 || Integer.parseInt(tableNumberTextField.getText()) > 8) 
+        {
+            tableNumberTextField.setStyle("-fx-text-inner-color: red;");
+            throw new Exception("Table number must be between 1 and 8.");
         }
         
         if (radioButtonToggleGroup.getSelectedToggle() == null)
@@ -331,6 +420,11 @@ public class CustomerFXMLController implements Initializable {
         dinnerRadioButton.setUserData("Dinner");
     }
     
+    /**
+     * Populates the Food and Beverage ComboBoxes
+     * 
+     * @param mealType 
+     */
     private void setupComboBoxes( String mealType )
     {
         //Getting food items from database
@@ -412,9 +506,14 @@ public class CustomerFXMLController implements Initializable {
             int listIndex = waitingOrdersListView.getSelectionModel().getSelectedIndex();
             if (listIndex < 0) 
                 throw new Exception("Please select an order to prepare.");
-            Order selectedOrder = orderSystem.getWaitingOrder(listIndex);
+            waitingOrders.get(listIndex);
+            Order selectedOrder = waitingOrders.get(listIndex);
+            int orderId = selectedOrder.getOrderId();
             if (AlertUtility.showConfirmation("Are you sure you want to prepare the selected order?")) {
-                orderSystem.serveOrder(selectedOrder);
+                String statement = "UPDATE orders SET `status` = 'prepared' WHERE `orderId` = " + orderId + ";";
+                DatabaseUtility.performStatement(statement);
+                outputToServer.println(1);
+                outputToServer.flush();
                 setupListView();
                 AlertUtility.showDialog("Order prepared.");
             }
@@ -430,9 +529,12 @@ public class CustomerFXMLController implements Initializable {
             int listIndex = servedOrdersListView.getSelectionModel().getSelectedIndex();
             if (listIndex < 0) 
                 throw new Exception("Please select an order to bill.");            
-            Order selectedOrder = orderSystem.getServedOrder(listIndex);
+            Order selectedOrder = servedOrders.get(listIndex);
+            int orderId = selectedOrder.getOrderId();
             if (AlertUtility.showConfirmation("Are you sure you want to bill the selected order?")) {
-                orderSystem.billOrder(selectedOrder);
+                //orderSystem.billOrder(selectedOrder);
+                String statement = "UPDATE orders SET status = 'billed' WHERE orderId = " + orderId + ";";
+                DatabaseUtility.performStatement(statement);
                 setupListView();
                 AlertUtility.showDialog("Order billed.");
             }
@@ -471,9 +573,6 @@ public class CustomerFXMLController implements Initializable {
             double carbohydrate = menuItemObservableList.get(0).getCarbohydrates()+ menuItemObservableList.get(1).getCarbohydrates();
             double fat = menuItemObservableList.get(0).getFat()+ menuItemObservableList.get(1).getFat();
             double dietaryFibre = menuItemObservableList.get(0).getDietaryFibre()+ menuItemObservableList.get(1).getDietaryFibre();
-
-            //tempMenuItem = new MenuItem(" ", " ", " ", Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0 );
-            //menuItemObservableList.add(tempMenuItem);
             
             tempMenuItem = new MenuItem(" ", " ", "Total Nutrients for each Type", price, energy, protein, carbohydrate, fat, dietaryFibre, 0 );
             menuItemObservableList.add(tempMenuItem);
@@ -483,7 +582,6 @@ public class CustomerFXMLController implements Initializable {
         }
     }
     
-    @FXML
     private void displayOrderButtonClicked()
     {
         if(waitingOrdersListView.getSelectionModel().isEmpty() && servedOrdersListView.getSelectionModel().isEmpty())
@@ -527,7 +625,6 @@ public class CustomerFXMLController implements Initializable {
     /**
      * Contains the logic for when the quit button is clicked 
      */
-    @FXML
     private void quitButtonClicked() {
         exitProgram();
         

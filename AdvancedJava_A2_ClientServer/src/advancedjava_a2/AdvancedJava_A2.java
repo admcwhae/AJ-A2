@@ -12,9 +12,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
- *
+ * Startup Class
+ * 
  * @author AmcwhaeLaptop
  */
 public class AdvancedJava_A2 extends Application {
@@ -27,6 +29,12 @@ public class AdvancedJava_A2 extends Application {
         
         stage.setScene(scene);
         stage.show();
+        
+        stage.setOnCloseRequest((WindowEvent event) -> {
+            if (AlertUtility.showConfirmation("Are you sure you want to exit the program?"))
+                System.exit(0);
+            event.consume();
+        });
     }
 
     /**

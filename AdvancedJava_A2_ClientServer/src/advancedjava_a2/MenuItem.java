@@ -6,7 +6,8 @@
 package advancedjava_a2;
 
 /**
- *
+ * A Menu Item in the Menu
+ * 
  * @author Moiz
  */
 public class MenuItem {
@@ -22,6 +23,9 @@ public class MenuItem {
     private double dietaryFibre;
     private int menuItemId;
 
+    /**
+     * Default Constructor
+     */
     public MenuItem() {
     }
 
@@ -52,82 +56,178 @@ public class MenuItem {
         this.menuItemId = menuItemId;
     }   
     
+    /**
+     *
+     * @return
+     */
     public String getMenuDescription() {
         return menuDescription;
     }
 
+    /**
+     *
+     * @param menuDescription
+     */
     public void setMenuDescription(String menuDescription) {
         this.menuDescription = menuDescription;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMealType() {
         return mealType;
     }
 
+    /**
+     *
+     * @param mealType
+     */
     public void setMealType(String mealType) {
         this.mealType = mealType;
     }
 
+    /**
+     * Gets the Item Name
+     * 
+     * @return Item Name
+     */
     public String getItemName() {
         return itemName;
     }
 
+    /**
+     * Sets the Item Name
+     * 
+     * @param itemName
+     */
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
 
+    /**
+     * Gets the price
+     * 
+     * @return
+     */
     public double getPrice() {
         return price;
     }
 
+    /**
+     * Sets the price
+     * 
+     * @param price
+     */
     public void setPrice(double price) {
         this.price = price;
     }
 
+    /**
+     * Gets the energy value
+     * 
+     * @return energy
+     */
     public double getEnergy() {
         return energy;
     }
 
+    /**
+     * Sets the energy value
+     * 
+     * @param energy
+     */
     public void setEnergy(double energy) {
         this.energy = energy;
     }
 
+    /**
+     * Gets the protein value
+     * 
+     * @return protein
+     */
     public double getProtein() {
         return protein;
     }
 
+    /**
+     * Sets the protein value
+     * 
+     * @param protein
+     */
     public void setProtein(double protein) {
         this.protein = protein;
     }
 
+    /**
+     * Gets the carbohydrates value
+     * 
+     * @return carbohydrates
+     */
     public double getCarbohydrates() {
         return carbohydrates;
     }
 
+    /**
+     * Sets the carbohydrates value
+     * 
+     * @param carbohydrates
+     */
     public void setCarbohydrates(double carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
 
+    /**
+     * Gets the Fat value
+     * 
+     * @return fat
+     */
     public double getFat() {
         return fat;
     }
 
+    /**
+     * Sets the Fat value
+     * 
+     * @param fat
+     */
     public void setFat(double fat) {
         this.fat = fat;
     }
 
+    /**
+     * Gets the Dietary Fibre value
+     * 
+     * @return dietaryFibre
+     */
     public double getDietaryFibre() {
         return dietaryFibre;
     }
 
+    /**
+     * Sets the Dietary Fibre value
+     * 
+     * @param dietaryFibre
+     */
     public void setDietaryFibre(double dietaryFibre) {
         this.dietaryFibre = dietaryFibre;
     }
 
+    /**
+     * Gets the Menu Item ID
+     * 
+     * @return menuItemId
+     */
     public int getMenuItemId() {
         return menuItemId;
     }
 
+    /**
+     * Sets the Menu Item ID
+     * 
+     * @param menuItemId
+     */
     public void setMenuItemId(int menuItemId) {
         this.menuItemId = menuItemId;
     }

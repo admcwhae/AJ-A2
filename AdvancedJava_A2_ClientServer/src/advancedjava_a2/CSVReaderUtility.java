@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Helper class for reading data from a CSV file
+ * 
  * @author Moiz
  */
 public class CSVReaderUtility {
@@ -20,7 +21,7 @@ public class CSVReaderUtility {
     /**
      * Read all the data from a CSV file and returns it as a list
      * 
-     * @param File Name
+     * @param fileName
      * 
      * @return List containing all data
      */

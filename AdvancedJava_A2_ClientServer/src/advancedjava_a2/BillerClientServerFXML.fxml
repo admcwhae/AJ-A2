@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" minHeight="620.0" minWidth="1280.0" prefHeight="620.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="advancedjava_a2.CustomerFXMLController">
+<AnchorPane id="AnchorPane" minHeight="620.0" minWidth="800.0" prefHeight="620.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advancedjava_a2.CustomerFXMLController">
    <children>
       <Separator layoutX="10.0" layoutY="179.0" prefHeight="3.0" prefWidth="1260.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <Separator layoutX="10.0" layoutY="417.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
@@ -22,13 +22,13 @@
       <Separator fx:id="bottomSeparator" layoutX="10.0" layoutY="499.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <HBox alignment="CENTER" layoutX="85.0" layoutY="652.0" prefHeight="25.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="85.0">
          <children>
-            <Button fx:id="displayOrderButton" mnemonicParsing="false" onAction="#displayOrderButtonClicked" prefWidth="150.0" text="Display Order" />
-            <Button fx:id="billButton" mnemonicParsing="false" onAction="#billButtonClicked" prefWidth="150.0" text="Bill" />
-            <Button fx:id="clearDisplayButton" mnemonicParsing="false" prefWidth="150.0" text="Clear Display" />
-            <Button fx:id="quitButton" mnemonicParsing="false" onAction="#quitButtonClicked" prefWidth="150.0" text="Quit" />
-          <Button fx:id="enterDataButton" mnemonicParsing="false" onAction="#enterDataButtonClicked" prefWidth="150.0" text="Enter Data" visible="false" />
+            <Button fx:id="displayOrderButton" minWidth="100.0" mnemonicParsing="false" prefWidth="150.0" text="Display Order" />
+            <Button fx:id="billButton" minWidth="100.0" mnemonicParsing="false" onAction="#billButtonClicked" prefWidth="150.0" text="Bill" />
+            <Button fx:id="clearDisplayButton" minWidth="100.0" mnemonicParsing="false" prefWidth="150.0" text="Clear Display" />
+            <Button fx:id="quitButton" minWidth="100.0" mnemonicParsing="false" prefWidth="150.0" text="Quit" />
+          <Button fx:id="enterDataButton" mnemonicParsing="false" prefWidth="150.0" text="Enter Data" visible="false" />
             <Button fx:id="displayChoicesButton" mnemonicParsing="false" onAction="#displayChoicesButtonClicked" prefWidth="150.0" text="Display Choices" visible="false" />
-            <Button fx:id="prepareButton" mnemonicParsing="false" onAction="#prepareButtonClicked" prefWidth="150.0" text="Prepare" visible="false" />
+            <Button fx:id="prepareButton" mnemonicParsing="false" prefWidth="150.0" text="Prepare" visible="false" />
          </children>
       </HBox>
       <HBox alignment="CENTER" layoutX="14.0" layoutY="395.0" spacing="120.0" visible="false" AnchorPane.leftAnchor="14.0">
@@ -102,12 +102,12 @@
             </TableView>
          </children>
       </StackPane>
-      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="100.0" spacing="20.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="150.0" prefWidth="772.0" spacing="20.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="122.0" spacing="5.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER" prefHeight="122.0" prefWidth="1252.0" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Served Orders" />
-                  <ListView fx:id="servedOrdersListView" prefHeight="100.0" prefWidth="200.0" />
+                  <ListView fx:id="servedOrdersListView" prefHeight="120.0" prefWidth="200.0" />
                </children>
             </VBox>
          </children>

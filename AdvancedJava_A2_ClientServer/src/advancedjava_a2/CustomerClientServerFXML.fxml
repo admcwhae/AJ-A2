@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" minHeight="730.0" minWidth="1280.0" prefHeight="730.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="advancedjava_a2.CustomerFXMLController">
+<AnchorPane id="AnchorPane" minHeight="730.0" minWidth="1280.0" prefHeight="730.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advancedjava_a2.CustomerFXMLController">
    <children>
       <Separator layoutX="14.0" layoutY="145.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <Separator layoutX="10.0" layoutY="242.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
@@ -22,11 +22,11 @@
       <Separator fx:id="bottomSeparator" layoutX="43.0" layoutY="615.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <HBox alignment="CENTER" layoutX="85.0" layoutY="652.0" prefHeight="25.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="85.0">
          <children>
-          <Button fx:id="enterDataButton" mnemonicParsing="false" onAction="#enterDataButtonClicked" prefWidth="150.0" text="Enter Data" />
+          <Button fx:id="enterDataButton" mnemonicParsing="false" prefWidth="150.0" text="Enter Data" />
             <Button fx:id="displayChoicesButton" mnemonicParsing="false" onAction="#displayChoicesButtonClicked" prefWidth="150.0" text="Display Choices" />
             <Button fx:id="clearDisplayButton" mnemonicParsing="false" prefWidth="150.0" text="Clear Display" />
-            <Button fx:id="quitButton" mnemonicParsing="false" onAction="#quitButtonClicked" prefWidth="150.0" text="Quit" />
-            <Button fx:id="displayOrderButton" mnemonicParsing="false" onAction="#displayOrderButtonClicked" prefWidth="150.0" text="Display Order" visible="false" />
+            <Button fx:id="quitButton" mnemonicParsing="false" prefWidth="150.0" text="Quit" />
+            <Button fx:id="displayOrderButton" mnemonicParsing="false" prefWidth="150.0" text="Display Order" visible="false" />
             <Button fx:id="prepareButton" mnemonicParsing="false" onAction="#prepareButtonClicked" prefWidth="150.0" text="Prepare" visible="false" />
             <Button fx:id="billButton" mnemonicParsing="false" onAction="#billButtonClicked" prefWidth="150.0" text="Bill" visible="false" />
          </children>

@@ -22,7 +22,8 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
- *
+ * Controller class for Main Screen
+ * 
  * @author AmcwhaeLaptop
  */
 public class FXMLDocumentController implements Initializable {
@@ -36,33 +37,11 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        try {
-            Parent mainViewParent = FXMLLoader.load(getClass().getResource("CustomerFXML.fxml"));
-            Scene mainViewScene = new Scene(mainViewParent);
-
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            window.setScene(mainViewScene);
-            window.show();
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        AlertUtility.showAboutDialog();
     }
 
     @FXML
     private void handleCustomerModeButtonAction(ActionEvent event) {
-//        try {
-//            Parent mainViewParent = FXMLLoader.load(getClass().getResource("CustomerClientServerFXML.fxml"));
-//            Scene mainViewScene = new Scene(mainViewParent);
-//
-//            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//
-//            window.setScene(mainViewScene);
-//            window.show();
-//        } catch (IOException ex) {
-//            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("CustomerClientServerFXML.fxml"));
@@ -74,6 +53,7 @@ public class FXMLDocumentController implements Initializable {
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+            window.setTitle("Customer");
             window.setScene(mainViewScene);
             window.show();
         } catch (IOException ex) {
@@ -84,31 +64,43 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleChefModeButtonAction(ActionEvent event) {
         try {
-                    Parent mainViewParent = FXMLLoader.load(getClass().getResource("ChefClientServerFXML.fxml"));
-                    Scene mainViewScene = new Scene(mainViewParent);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("ChefClientServerFXML.fxml"));
+            Parent mainViewParent = loader.load();
+            Scene mainViewScene = new Scene(mainViewParent);
 
-                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            CustomerFXMLController controller = loader.getController();
+            controller.initializeChef();
 
-                    window.setScene(mainViewScene);
-                    window.show();
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            window.setTitle("Chef");
+            window.setScene(mainViewScene);
+            window.show();
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @FXML
     private void handleBillerModeButtonAction(ActionEvent event) {
         try {
-                    Parent mainViewParent = FXMLLoader.load(getClass().getResource("BillerClientServerFXML.fxml"));
-                    Scene mainViewScene = new Scene(mainViewParent);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("BillerClientServerFXML.fxml"));
+            Parent mainViewParent = loader.load();
+            Scene mainViewScene = new Scene(mainViewParent);
 
-                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            CustomerFXMLController controller = loader.getController();
+            controller.initializeBiller();
 
-                    window.setScene(mainViewScene);
-                    window.show();
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            window.setTitle("Biller");
+            window.setScene(mainViewScene);
+            window.show();
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override

@@ -15,7 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Database Helper class
+ * 
  * @author AmcwhaeLaptop
  */
 public class DatabaseUtility{
@@ -27,6 +28,11 @@ public class DatabaseUtility{
     private final static String DB_USERNAME = "admin";
     private final static String DB_PASSWORD = "advancedjava";
     
+    /**
+     * Runs the specified query in the database
+     * 
+     * @param statement
+     */
     public static void performStatement(String statement) {
        try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -59,6 +65,12 @@ public class DatabaseUtility{
         }
     }
     
+    /**
+     * Gets the Menu Items from Database according to the specified query
+     * 
+     * @param statement
+     * @return List of Menu Items
+     */
     public static ArrayList<MenuItem> getMenuItemsFromDatabase(String statement) {
        
         ArrayList<MenuItem> menuItemsList = new ArrayList<MenuItem>();
@@ -114,7 +126,13 @@ public class DatabaseUtility{
         return menuItemsList;
     }
     
-        public static ArrayList<Order> getOrdersFromDatabase(String statement) {
+    /**
+     * Gets the orders from Database according to the specified query
+     * 
+     * @param statement
+     * @return List of Orders
+     */
+    public static ArrayList<Order> getOrdersFromDatabase(String statement) {
         ArrayList<Order> orders = new ArrayList<>();
         
        try {
