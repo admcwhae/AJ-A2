@@ -7,36 +7,53 @@ package advancedjava_a2;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author AmcwhaeLaptop
  */
 public class DatabaseUtility{
-    public static void performStatement(String statement) throws Exception{
-        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        String databaseEndpoint = "advancedjavadb.ckgrcw20igrb.ap-southeast-2.rds.amazonaws.com:3306";
-        String databaseName = "orderSystemDb";
-        String username = "admin";
-        String password = "advancedjava";
-        
-        String dbUrl = "jdbc:mysql://" + databaseEndpoint + "/" + databaseName + "?autoReconnect=true&useSSL=false";
-        
-        Connection conn = DriverManager.getConnection(dbUrl, username, password);
-        try {
-            /* you use the connection here */
-            try (Statement stmt = conn.createStatement()) {
-                stmt.executeUpdate(statement);
+    
+    // databse connection constants, can be edited if running on the local system
+    private final static String DB_ENDPOINT = "advancedjavadb.ckgrcw20igrb.ap-southeast-2.rds.amazonaws.com";
+    private final static String DB_PORT = "3306";
+    private final static String DB_NAME = "orderSystemDb";
+    private final static String DB_USERNAME = "admin";
+    private final static String DB_PASSWORD = "advancedjava";
+    
+    public static void performStatement(String statement) {
+       try {
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            String dbUrl = "jdbc:mysql://" + DB_ENDPOINT + ":" + DB_PORT + "/" + DB_NAME + "?autoReconnect=true&useSSL=false";
+
+            Connection conn = DriverManager.getConnection(dbUrl, DB_USERNAME, DB_PASSWORD);
+            try {
+                /* you use the connection here */
+                try (Statement stmt = conn.createStatement()) {
+                    stmt.executeUpdate(statement);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } finally {
+                //It's important to close the connection when you are done with it
+                try {
+                    conn.close();
+                } catch (Throwable e) {
+                    System.out.println(e);
+                }
             }
-        } finally {
-            //It's important to close the connection when you are done with it
-            try { 
-                conn.close(); 
-            } 
-            catch (Throwable e) {
-                System.out.println(e); 
-            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

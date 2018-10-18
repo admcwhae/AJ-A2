@@ -119,39 +119,6 @@ public class CustomerFXMLController implements Initializable {
         });
     }
     
-    //call function to run update queries
-    private void runUpdateQuery(String updateQuery) {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            String dbUrl = "jdbc:mysql://advancedjavadb.ckgrcw20igrb.ap-southeast-2.rds.amazonaws.com:3306/orderSystemDb?autoReconnect=true&useSSL=false";
-            Connection conn = DriverManager.getConnection(dbUrl, "admin", "advancedjava");
-            try {
-                /* you use the connection here */
-                String statement = updateQuery;//"INSERT INTO test VALUES (3);";
-                try (Statement stmt = conn.createStatement()) {
-                    stmt.executeUpdate(statement);
-                } catch (SQLException ex) {
-                    Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } finally {
-                //It's important to close the connection when you are done with it
-                try {
-                    conn.close();
-                } catch (Throwable e) {
-                    System.out.println(e);
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     //called by the UI
     @FXML
     private void enterDataButtonClicked()
@@ -176,14 +143,12 @@ public class CustomerFXMLController implements Initializable {
             resetGUISecondPartition();
             
             //enter order into database
-//            runUpdateQuery(
-//                        "INSERT INTO TABLE_NAME VALUES('" + 
-//                        newOrder.getCustomerName() + "', '" +
-//                        Integer.toString(newOrder.getTableNumber()) + "', '" +
-//                        newOrder.getMealType() + "', '" +
-//                        newOrder.getFoodItem() + "', '" +
-//                        newOrder.getBeverageItem() + "');" 
-//            );
+            DatabaseUtility.performStatement("INSERT INTO orders (`customerName`, `tableNumber`, `foodItem`, `beverageItem`, `status`) VALUES ('" + 
+                        newOrder.getCustomerName() + "', '" +
+                        Integer.toString(newOrder.getTableNumber()) + "', '" +
+                        newOrder.getFoodItem() + "', '" +
+                        newOrder.getBeverageItem() + "', 'waiting');" 
+            );
         }
         
         //setup ObservableList and and show in ListView
