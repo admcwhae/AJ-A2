@@ -5,8 +5,11 @@
  */
 package advancedjava_a2;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ConnectException;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.Connection;
@@ -37,11 +40,12 @@ import javafx.scene.input.MouseEvent;
  *
  * @author akbar
  */
-public class CustomerFXMLController implements Initializable {
+public class BillFXMLController implements Initializable {
         
     OrderSystem orderSystem;
     PrintWriter outputToServer;
     Socket socket;
+    ArrayList<Order> servedOrders;
     
     //first partition - "customer details"
     @FXML TextField customerNameTextField;
@@ -116,22 +120,24 @@ public class CustomerFXMLController implements Initializable {
         //setup GUI listener events
         eventListenerBinder();
         
-        boolean connected = false; 
-        while (!connected) {
-            String serverAddress = AlertUtility.getServerInput();
-            try { 
-                socket = new Socket(serverAddress, 5000);
-                connected = true;
-                outputToServer = new PrintWriter(socket.getOutputStream());
-            }
-            catch (ConnectException ex) {
-                System.out.println(ex.toString());
-                AlertUtility.showError("Server cannot connect, please ensure that a chef module is running.");
-            }
-            catch (Exception ex){
-                AlertUtility.showError(ex.toString());
-            }
+    new Thread( () -> {
+        try {
+            ServerSocket serverSocket = new ServerSocket(5001);
+            Socket socket = serverSocket.accept();
+            BufferedReader inputFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                while (true) {
+                    String line = inputFromClient.readLine();
+                    if (Integer.parseInt(line) == 1) {                      
+                        // updates the list of pending orders
+                        setupListView();
+                    }
+                }
         }
+        catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+        }).start();
+    setupListView();
     }
     
     private void eventListenerBinder()
@@ -174,8 +180,6 @@ public class CustomerFXMLController implements Initializable {
             // sends a one to the server to indicate that there is a new order to display
             outputToServer.println(1);
             outputToServer.flush();
-            
-            AlertUtility.showDialog("Order successfully placed.");
         }
         
         //setup ObservableList and and show in ListView
@@ -187,32 +191,17 @@ public class CustomerFXMLController implements Initializable {
      */
     private void setupListView()
     {
-        //creating new ObservableList from existing ArrayList
-        waitingOrdersObservableList = FXCollections.observableArrayList(orderSystem.getWaitingOrders());
-        
-        //assign above ObservableList to waitingOrders ListView
-        waitingOrdersListView.setItems(waitingOrdersObservableList);
+        String statement = "SELECT * FROM orders WHERE status = 'prepared';";
+        servedOrders = DatabaseUtility.getOrdersFromDatabase(statement);
         
         //creating new ObservableList from existing ArrayList
-        servedOrdersObservableList = FXCollections.observableArrayList(orderSystem.getServedOrders());
+        servedOrdersObservableList = FXCollections.observableArrayList(servedOrders);
         
         //assign above ObservableList to servedOrders ListView
         servedOrdersListView.setItems(servedOrdersObservableList);
         
         //disable prepare and bill buttons
-        prepareButton.setDisable(true);
         billButton.setDisable(true);
-        
-        //set OnClick event handler for waitingOrdersList
-        //lambda used in event handling
-        waitingOrdersListView.setOnMouseClicked((MouseEvent event) -> {
-            if(!waitingOrdersListView.getSelectionModel().isEmpty())
-            {
-                prepareButton.setDisable(false);
-            }
-            servedOrdersListView.getSelectionModel().clearSelection();
-            billButton.setDisable(true);
-        });
         
         //set OnClick event handler for servedOrdersList
         //lambda used in event handling
@@ -404,34 +393,19 @@ public class CustomerFXMLController implements Initializable {
         orderInformationTableView.setVisible(false);
         bottomSeparator.setVisible(false);
     }
-    
-    @FXML
-    private void prepareButtonClicked() {
-        try {
-            int listIndex = waitingOrdersListView.getSelectionModel().getSelectedIndex();
-            if (listIndex < 0) 
-                throw new Exception("Please select an order to prepare.");
-            Order selectedOrder = orderSystem.getWaitingOrder(listIndex);
-            if (AlertUtility.showConfirmation("Are you sure you want to prepare the selected order?")) {
-                orderSystem.serveOrder(selectedOrder);
-                setupListView();
-                AlertUtility.showDialog("Order prepared.");
-            }
-        }
-        catch (Exception ex) {
-            AlertUtility.showError(ex.getMessage());
-        }
-    }
-    
+      
     @FXML
     private void billButtonClicked() {
         try {
             int listIndex = servedOrdersListView.getSelectionModel().getSelectedIndex();
             if (listIndex < 0) 
                 throw new Exception("Please select an order to bill.");            
-            Order selectedOrder = orderSystem.getServedOrder(listIndex);
+            Order selectedOrder = servedOrders.get(listIndex);
+            int orderId = selectedOrder.getOrderId();
             if (AlertUtility.showConfirmation("Are you sure you want to bill the selected order?")) {
-                orderSystem.billOrder(selectedOrder);
+                //orderSystem.billOrder(selectedOrder);
+                String statement = "UPDATE orders SET status = 'billed' WHERE orderId = " + orderId + ";";
+                DatabaseUtility.performStatement(statement);
                 setupListView();
                 AlertUtility.showDialog("Order billed.");
             }

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" minHeight="620.0" minWidth="1280.0" prefHeight="620.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="advancedjava_a2.CustomerFXMLController">
+<AnchorPane id="AnchorPane" minHeight="620.0" minWidth="1280.0" prefHeight="620.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="advancedjava_a2.BillFXMLController">
    <children>
       <Separator layoutX="10.0" layoutY="179.0" prefHeight="3.0" prefWidth="1260.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <Separator layoutX="10.0" layoutY="417.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
@@ -28,7 +28,7 @@
             <Button fx:id="quitButton" mnemonicParsing="false" onAction="#quitButtonClicked" prefWidth="150.0" text="Quit" />
           <Button fx:id="enterDataButton" mnemonicParsing="false" onAction="#enterDataButtonClicked" prefWidth="150.0" text="Enter Data" visible="false" />
             <Button fx:id="displayChoicesButton" mnemonicParsing="false" onAction="#displayChoicesButtonClicked" prefWidth="150.0" text="Display Choices" visible="false" />
-            <Button fx:id="prepareButton" mnemonicParsing="false" onAction="#prepareButtonClicked" prefWidth="150.0" text="Prepare" visible="false" />
+            <Button fx:id="prepareButton" mnemonicParsing="false" prefWidth="150.0" text="Prepare" visible="false" />
          </children>
       </HBox>
       <HBox alignment="CENTER" layoutX="14.0" layoutY="395.0" spacing="120.0" visible="false" AnchorPane.leftAnchor="14.0">
