@@ -114,8 +114,51 @@ public class DatabaseUtility{
         
         return menuItemsList;
     }
-}
-
-
     
+        public static ArrayList<Order> getOrdersFromDatabase(String statement) {
+        ArrayList<Order> orders = new ArrayList<>();
+        
+       try {
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            String dbUrl = "jdbc:mysql://" + DB_ENDPOINT + ":" + DB_PORT + "/" + DB_NAME + "?autoReconnect=true&useSSL=false";
 
+            Connection conn = DriverManager.getConnection(dbUrl, DB_USERNAME, DB_PASSWORD);
+            try {
+                /* you use the connection here */
+                try (Statement stmt = conn.createStatement()) {
+                    ResultSet resultSet = stmt.executeQuery(statement);
+                    while (resultSet.next()) {
+                        int orderId = Integer.parseInt(resultSet.getString("orderId"));
+                        String customerName = resultSet.getString("customerName");
+                        int tableNumber = Integer.parseInt(resultSet.getString("tableNumber"));
+                        String foodItem = resultSet.getString("foodItem");
+                        String beverageItem = resultSet.getString("beverageItem");
+                        String orderStatus = resultSet.getString("status");
+                      
+                        Order order = new Order(orderId, customerName, tableNumber, foodItem, beverageItem, orderStatus);
+                        orders.add(order);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } finally {
+                //It's important to close the connection when you are done with it
+                try {
+                    conn.close();
+                } catch (Throwable e) {
+                    System.out.println(e);
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+       return orders;
+    }
+}

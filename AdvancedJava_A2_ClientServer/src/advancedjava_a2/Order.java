@@ -10,6 +10,8 @@ package advancedjava_a2;
  * @author Alex McWhae
  */
 public class Order {
+    private int orderId;
+    
     private String customerName;
     
     private int tableNumber;
@@ -41,6 +43,25 @@ public class Order {
         this.beverageItem = beverageItem;
         this.orderedItems = foodItem + ", " + beverageItem;
         this.orderStatus = "waiting";
+    }
+    
+    /**
+     * Constructor for creating an order object when customer places initially places an order
+     * 
+     * @param customerName The customer's name.
+     * @param tableNumber The table number.
+     * @param mealType The meal type (Breakfast, Lunch, or Dinner).
+     * @param foodItem The food item selected from the menu.
+     * @param beverageItem The beverage selected from the menu.
+     */
+    public Order(int orderId, String customerName, int tableNumber, String foodItem, String beverageItem, String orderStatus) {
+        this.orderId = orderId;
+        this.customerName = customerName;
+        this.tableNumber = tableNumber;
+        this.foodItem = foodItem;
+        this.beverageItem = beverageItem;
+        this.orderedItems = foodItem + ", " + beverageItem;
+        this.orderStatus = orderStatus;
     }
     
     /**
@@ -125,6 +146,10 @@ public class Order {
     
     public String getOrderedItems() {
         return this.orderedItems;
+    }
+
+    public int getOrderId() {
+        return orderId;
     }
 }
 

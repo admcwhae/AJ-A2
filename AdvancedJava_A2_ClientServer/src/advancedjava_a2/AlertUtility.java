@@ -5,9 +5,11 @@
  */
 package advancedjava_a2;
 
+import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Window;
 
 /**
@@ -61,5 +63,20 @@ public class AlertUtility {
             result = false;
         }
         return result;   
+    }
+    
+        public static String getServerInput() {
+        TextInputDialog dialog = new TextInputDialog("localhost");
+ 
+        dialog.setTitle("Connection Details");
+        dialog.setHeaderText("Enter the ip address to connect to");
+        dialog.setContentText("IP Address:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(serverAddress -> {
+        });
+        
+        return result.get();
     }
 }

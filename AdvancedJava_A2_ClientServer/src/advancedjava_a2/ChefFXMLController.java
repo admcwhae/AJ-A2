@@ -5,13 +5,15 @@
  */
 package advancedjava_a2;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ConnectException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -33,15 +35,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 /**
- * FXML Controller class
  *
- * @author akbar
+ * @author AmcwhaeLaptop
  */
-public class CustomerFXMLController implements Initializable {
-        
-    OrderSystem orderSystem;
-    PrintWriter outputToServer;
-    Socket socket;
+public class ChefFXMLController implements Initializable {
+    
+        OrderSystem orderSystem;
+        private ArrayList<Order> waitingOrders;
     
     //first partition - "customer details"
     @FXML TextField customerNameTextField;
@@ -89,50 +89,30 @@ public class CustomerFXMLController implements Initializable {
     @FXML Button clearDisplayButton;
     @FXML Button quitButton;
     
-    
-    
-    /**
-     * Initializes the CustomerFXMLController class.
-     * @param url
-     * @param rb
-     */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {       
-                                               
-        //Assign toggleGroup to radio buttons
-        setRadioButtonToggleGroup();
+    public void initialize(URL url, ResourceBundle rb) {
         
-        //create new OrderSystem object
-        orderSystem = new OrderSystem();
-         
-        //setup ComboBoxes
-        foodComboBox.setDisable(true);
-        beverageComboBox.setDisable(true);
-        setupListView();
-        
-        //setup tableColumns
-        setupTableColumns();
-        
-        //setup GUI listener events
-        eventListenerBinder();
-        
-        boolean connected = false; 
-        while (!connected) {
-            String serverAddress = AlertUtility.getServerInput();
-            try { 
-                socket = new Socket(serverAddress, 5000);
-                connected = true;
-                outputToServer = new PrintWriter(socket.getOutputStream());
-            }
-            catch (ConnectException ex) {
-                System.out.println(ex.toString());
-                AlertUtility.showError("Server cannot connect, please ensure that a chef module is running.");
-            }
-            catch (Exception ex){
-                AlertUtility.showError(ex.toString());
-            }
+    new Thread( () -> {
+        try {
+            ServerSocket serverSocket = new ServerSocket(5000);
+            Socket socket = serverSocket.accept();
+            BufferedReader inputFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                while (true) {
+                    String line = inputFromClient.readLine();
+                    if (Integer.parseInt(line) == 1) {
+                        System.out.println("Order made, connecting to database.");
+                        
+                        // updates the list of pending orders
+                        setupListView();
+                    }
+                }
         }
-    }
+        catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+        }).start();
+    setupListView();
+    }      
     
     private void eventListenerBinder()
     {
@@ -140,7 +120,7 @@ public class CustomerFXMLController implements Initializable {
             clearDisplayButtonClicked();
         });
     }
-    
+
     //called by the UI
     @FXML
     private void enterDataButtonClicked()
@@ -163,17 +143,6 @@ public class CustomerFXMLController implements Initializable {
             //reset first and second GUI Partitions
             resetGUIFirstPartition();
             resetGUISecondPartition();
-            
-            //enter order into database
-            DatabaseUtility.performStatement("INSERT INTO orders (`customerName`, `tableNumber`, `foodItem`, `beverageItem`, `status`) VALUES ('" + 
-                        newOrder.getCustomerName() + "', '" +
-                        Integer.toString(newOrder.getTableNumber()) + "', '" +
-                        newOrder.getFoodItem() + "', '" +
-                        newOrder.getBeverageItem() + "', 'waiting');" 
-            );
-            // sends a one to the server to indicate that there is a new order to display
-            outputToServer.println(1);
-            outputToServer.flush();
         }
         
         //setup ObservableList and and show in ListView
@@ -185,22 +154,16 @@ public class CustomerFXMLController implements Initializable {
      */
     private void setupListView()
     {
+        // Connect to database and select all the orders that have a status of pending
+        String statement = "SELECT * FROM orders WHERE status = 'waiting';";
+        waitingOrders = DatabaseUtility.getOrdersFromDatabase(statement);
+        
         //creating new ObservableList from existing ArrayList
-        waitingOrdersObservableList = FXCollections.observableArrayList(orderSystem.getWaitingOrders());
+        waitingOrdersObservableList = FXCollections.observableArrayList(waitingOrders);
         
         //assign above ObservableList to waitingOrders ListView
         waitingOrdersListView.setItems(waitingOrdersObservableList);
-        
-        //creating new ObservableList from existing ArrayList
-        servedOrdersObservableList = FXCollections.observableArrayList(orderSystem.getServedOrders());
-        
-        //assign above ObservableList to servedOrders ListView
-        servedOrdersListView.setItems(servedOrdersObservableList);
-        
-        //disable prepare and bill buttons
-        prepareButton.setDisable(true);
-        billButton.setDisable(true);
-        
+               
         //set OnClick event handler for waitingOrdersList
         //lambda used in event handling
         waitingOrdersListView.setOnMouseClicked((MouseEvent event) -> {
@@ -208,19 +171,8 @@ public class CustomerFXMLController implements Initializable {
             {
                 prepareButton.setDisable(false);
             }
-            servedOrdersListView.getSelectionModel().clearSelection();
-            billButton.setDisable(true);
-        });
-        
-        //set OnClick event handler for servedOrdersList
-        //lambda used in event handling
-        servedOrdersListView.setOnMouseClicked((MouseEvent event) -> {
-            if(!servedOrdersListView.getSelectionModel().isEmpty())
-            {
-                billButton.setDisable(false);
-            }
-            waitingOrdersListView.getSelectionModel().clearSelection();
-            prepareButton.setDisable(true);
+            //servedOrdersListView.getSelectionModel().clearSelection();
+            //billButton.setDisable(true);
         });
     }
     
@@ -330,16 +282,9 @@ public class CustomerFXMLController implements Initializable {
     
     private void setupComboBoxes( String mealType )
     {
-        //Getting food items from database
-        final String SELECT_MENU_ITEMS_FOOD_QRY = "Select * FROM menu WHERE mealType = '" + mealType + "' AND type = 'Food'";
-        ArrayList<MenuItem> foodItemsList = DatabaseUtility.getMenuItemsFromDatabase(SELECT_MENU_ITEMS_FOOD_QRY);
-        //Getting beverage items from database
-        final String SELECT_MENU_ITEMS_BEVERAGE_QRY = "Select * FROM menu WHERE mealType = '" + mealType + "' AND type = 'Beverage'";
-        ArrayList<MenuItem> beverageItemsList = DatabaseUtility.getMenuItemsFromDatabase(SELECT_MENU_ITEMS_BEVERAGE_QRY);
-        
         //create ObservableLists from ArrayList for use in comboBoxes
-        ObservableList<MenuItem> foodList = FXCollections.observableArrayList(foodItemsList);
-        ObservableList<MenuItem> beverageList = FXCollections.observableArrayList(beverageItemsList);        
+        ObservableList<MenuItem> foodList = FXCollections.observableArrayList(menu.getMenuItemsByMealType( mealType, "Food" ));
+        ObservableList<MenuItem> beverageList = FXCollections.observableArrayList(menu.getMenuItemsByMealType( mealType, "Beverage" ));
         
         //adding sample values
         foodComboBox.getItems().clear();
@@ -409,9 +354,12 @@ public class CustomerFXMLController implements Initializable {
             int listIndex = waitingOrdersListView.getSelectionModel().getSelectedIndex();
             if (listIndex < 0) 
                 throw new Exception("Please select an order to prepare.");
-            Order selectedOrder = orderSystem.getWaitingOrder(listIndex);
+            waitingOrders.get(listIndex);
+            Order selectedOrder = waitingOrders.get(listIndex);
+            int orderId = selectedOrder.getOrderId();
             if (AlertUtility.showConfirmation("Are you sure you want to prepare the selected order?")) {
-                orderSystem.serveOrder(selectedOrder);
+                String statement = "UPDATE orders SET `status` = 'prepared' WHERE `orderId` = " + orderId + ";";
+                DatabaseUtility.performStatement(statement);
                 setupListView();
                 AlertUtility.showDialog("Order prepared.");
             }
@@ -420,25 +368,7 @@ public class CustomerFXMLController implements Initializable {
             AlertUtility.showError(ex.getMessage());
         }
     }
-    
-    @FXML
-    private void billButtonClicked() {
-        try {
-            int listIndex = servedOrdersListView.getSelectionModel().getSelectedIndex();
-            if (listIndex < 0) 
-                throw new Exception("Please select an order to bill.");            
-            Order selectedOrder = orderSystem.getServedOrder(listIndex);
-            if (AlertUtility.showConfirmation("Are you sure you want to bill the selected order?")) {
-                orderSystem.billOrder(selectedOrder);
-                setupListView();
-                AlertUtility.showDialog("Order billed.");
-            }
-        }
-        catch (Exception ex) {
-            AlertUtility.showError(ex.getMessage());
-        }
-    }
-    
+        
     @FXML
     private void displayChoicesButtonClicked()
     {
@@ -483,7 +413,7 @@ public class CustomerFXMLController implements Initializable {
     @FXML
     private void displayOrderButtonClicked()
     {
-        if(waitingOrdersListView.getSelectionModel().isEmpty() && servedOrdersListView.getSelectionModel().isEmpty())
+        if(waitingOrdersListView.getSelectionModel().isEmpty())
         {
             AlertUtility.showError("An order must be selected to View Order.");
         }
@@ -500,12 +430,7 @@ public class CustomerFXMLController implements Initializable {
             {
                 selectedOrderObservableList.add((Order)waitingOrdersListView.getSelectionModel().getSelectedItem());
             }
-            
-            if(!servedOrdersListView.getSelectionModel().isEmpty())
-            {
-                selectedOrderObservableList.add((Order)servedOrdersListView.getSelectionModel().getSelectedItem());
-            }
-            
+                        
             orderInformationTableView.setItems(selectedOrderObservableList);
         }
     }
