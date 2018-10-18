@@ -92,7 +92,7 @@ public class CustomerFXMLController implements Initializable {
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {       
+    public void initialize(URL url, ResourceBundle rb) {                                                                      
                                                
         //Assign toggleGroup to radio buttons
         setRadioButtonToggleGroup();
@@ -305,9 +305,16 @@ public class CustomerFXMLController implements Initializable {
     
     private void setupComboBoxes( String mealType )
     {
+        //Getting food items from database
+        final String SELECT_MENU_ITEMS_FOOD_QRY = "Select * FROM menu WHERE mealType = '" + mealType + "' AND type = 'Food'";
+        ArrayList<MenuItem> foodItemsList = DatabaseUtility.getMenuItemsFromDatabase(SELECT_MENU_ITEMS_FOOD_QRY);
+        //Getting beverage items from database
+        final String SELECT_MENU_ITEMS_BEVERAGE_QRY = "Select * FROM menu WHERE mealType = '" + mealType + "' AND type = 'Beverage'";
+        ArrayList<MenuItem> beverageItemsList = DatabaseUtility.getMenuItemsFromDatabase(SELECT_MENU_ITEMS_BEVERAGE_QRY);
+        
         //create ObservableLists from ArrayList for use in comboBoxes
-        ObservableList<MenuItem> foodList = FXCollections.observableArrayList(menu.getMenuItemsByMealType( mealType, "Food" ));
-        ObservableList<MenuItem> beverageList = FXCollections.observableArrayList(menu.getMenuItemsByMealType( mealType, "Beverage" ));
+        ObservableList<MenuItem> foodList = FXCollections.observableArrayList(foodItemsList);
+        ObservableList<MenuItem> beverageList = FXCollections.observableArrayList(beverageItemsList);        
         
         //adding sample values
         foodComboBox.getItems().clear();
