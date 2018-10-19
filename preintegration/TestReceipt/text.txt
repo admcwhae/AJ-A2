@@ -1,0 +1,3 @@
+Item              Qty      Price
+----              ---      -----
+Tax                         2.00

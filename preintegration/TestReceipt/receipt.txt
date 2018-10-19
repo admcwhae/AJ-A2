@@ -1,0 +1,17 @@
+                 CUSTOMER COPY
+                  07:49:51 PM
+                   10/19/18
+
+Order 1
+Table 2
+Name  Alexander
+---------                                -----
+Item                                     Price
+---------                                -----
+Coffee made up with regular fat cow       4.00
+Lime cordial                              5.00
+---------                                -----
+GST                                       0.90
+Total                                     9.00
+
+         Thanks for eating with us.
