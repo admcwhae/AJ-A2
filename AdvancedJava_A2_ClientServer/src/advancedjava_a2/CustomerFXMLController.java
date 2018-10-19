@@ -5,7 +5,10 @@
  */
 package advancedjava_a2;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ConnectException;
@@ -17,6 +20,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Formatter;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -538,10 +543,52 @@ public class CustomerFXMLController implements Initializable {
                 DatabaseUtility.performStatement(statement);
                 setupListView();
                 AlertUtility.showDialog("Order billed.");
+                
+                printReceipt(selectedOrder);      
             }
         }
         catch (Exception ex) {
             AlertUtility.showError(ex.getMessage());
+        }
+    }
+    
+    private void printReceipt(Order order) {
+        String path = "receipt.txt";
+        int orderId = order.getOrderId();       
+        try {
+            FileWriter write = new FileWriter(path);
+            PrintWriter print = new PrintWriter(write);
+            Formatter f = new Formatter(print);
+
+            float[] prices = DatabaseUtility.getPrices(orderId);
+            Date date = new Date();
+
+            f.format("%30s\r\n", "CUSTOMER COPY");
+            f.format("%29tr\r\n", date);
+            f.format("%27tD\r\n", date);
+            f.format("\r\n");
+            f.format("%s %d\r\n", "Order:", orderId);
+            f.format("%s %d\r\n", "Table:", order.getTableNumber() );
+            f.format("%-5s %.15s\r\n", "Name:", order.getCustomerName() );
+            f.format("%-30s %15s\r\n", "Item", "Price");
+            f.format("%-30s %15s\r\n", "---------", "-----");
+            f.format("%-35.35s %10.2f\r\n", order.getFoodItem(), prices[0]);
+            f.format("%-35.35s %10.2f\r\n", order.getBeverageItem(), prices[1]);
+            f.format("%-30s %15s\r\n", "---------", "-----");
+            f.format("%-30.20s %15.2f\r\n", "GST",  prices[2] * 0.1);
+            f.format("%-30.20s %15.2f\r\n", "Total",  prices[2]);
+            f.format("\r\n");
+            f.format("Thanks for eating with us."); 
+            // save the file
+            print.close();
+ 
+            // if supported, java will open the file in a text editor to simulate printing of the receipt
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().edit(new File(path));
+            }
+        }
+            catch (Exception ex) {
+                System.out.println(ex.toString());
         }
     }
     

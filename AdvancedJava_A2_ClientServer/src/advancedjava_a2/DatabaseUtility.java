@@ -178,4 +178,59 @@ public class DatabaseUtility{
        
        return orders;
     }
+    
+    
+    /**
+     * Gets the prices for a given order number from Database
+     * 
+     * @param orderId
+     * @return Array of prices, 0 being food item, 1 being beverage and 2 being the total
+     */
+    public static float[] getPrices(int orderId) {
+        float[] prices = new float[3];
+        
+       try {
+           String statement = "(SELECT price FROM menu m INNER JOIN orders o ON o.foodItem = m.name WHERE o.orderId = " + orderId + ") UNION (SELECT price FROM menu m INNER JOIN orders o ON o.beverageItem = m.name WHERE o.orderId = " + orderId + ")";
+           
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            String dbUrl = "jdbc:mysql://" + DB_ENDPOINT + ":" + DB_PORT + "/" + DB_NAME + "?autoReconnect=true&useSSL=false";
+
+            Connection conn = DriverManager.getConnection(dbUrl, DB_USERNAME, DB_PASSWORD);
+            try {
+                /* you use the connection here */
+                try (Statement stmt = conn.createStatement()) {
+                    ResultSet resultSet = stmt.executeQuery(statement);
+                    resultSet.next();
+                    
+                    prices[0] = resultSet.getFloat("price");
+                    resultSet.next();
+                    prices[1] = resultSet.getFloat("price");
+                    
+                    prices[2] = prices[0] + prices[1];   
+                                    
+                    
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } finally {
+                //It's important to close the connection when you are done with it
+                try {
+                    conn.close();
+                } catch (Throwable e) {
+                    System.out.println(e);
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(CustomerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+       return prices;
+    }
 }
