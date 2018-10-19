@@ -51,10 +51,10 @@ public class AlertUtility {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("About");
         alert.setHeaderText("Restaurant Client-Server Program");
-        alert.setContentText("Created by\n"
+        alert.setContentText("Created by:\n"
                 + "\n"
-                + "Moiz (Student ID)\n"
-                + "Alex (Student ID)\n"
+                + "Abdul Moiz (101727106)\n"
+                + "Alexander McWhae (101801822)\n"
                 + "Mirza Akbar Beg (101439582)\n");
         alert.showAndWait();        
     }
